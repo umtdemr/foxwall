@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
@@ -23,6 +25,7 @@ class UserManager(BaseUserManager):
             username=username,
             **extra_fields,
         )
+        user.set_password(password)
         user.save(using=self._db)
 
         return user
@@ -45,6 +48,11 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     email = models.EmailField(unique=True)
     first_name = None
     last_name = None
+    token = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+    )
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -54,14 +62,36 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     USERNAME_FIELD = "username"
 
 
-# class UserProfile(TimeInfoModel):
-#     user = models.OneToOneField(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name="profile",
-#     )
-#     name = models.CharField(max_length=200)
-#     avatar =
-#     bio = models.TextField(blank=True, null=True)
-#     is_celebrity = models.BooleanField(default=False)
-#     is_hidden = models.BooleanField(default=False)
+class UserProfile(TimeInfoModel):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile",
+    )
+    name = models.CharField(max_length=200)
+    avatar = ProcessedImageField(
+        blank=False,
+        null=True,
+        format="JPEG",
+        options={"quality": 90},
+        processors=[ResizeToFit(width=1024, upscale=False)],
+    )
+    cover = ProcessedImageField(
+        blank=False,
+        null=True,
+        format="JPEG",
+        options={"quality": 90},
+        processors=[ResizeToFill(500, 500)],
+    )
+    bio = models.TextField(blank=True, null=True)
+    is_celebrity = models.BooleanField(default=False)
+    is_hidden = models.BooleanField(default=False)
+
+    class Meta:
+        index_together = [("id", "user")]
+
+    def __repr__(self) -> str:
+        return "<UserProfile %s>" % self.user.username
+
+    def __str__(self) -> str:
+        return self.user.username
