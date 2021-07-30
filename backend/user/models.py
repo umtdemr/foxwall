@@ -1,3 +1,4 @@
+from user.utils import upload_to_user_directory
 import uuid
 
 from django.db import models
@@ -75,6 +76,7 @@ class UserProfile(TimeInfoModel):
         format="JPEG",
         options={"quality": 90},
         processors=[ResizeToFit(width=1024, upscale=False)],
+        upload_to=upload_to_user_directory,
     )
     cover = ProcessedImageField(
         blank=False,
@@ -82,6 +84,7 @@ class UserProfile(TimeInfoModel):
         format="JPEG",
         options={"quality": 90},
         processors=[ResizeToFill(500, 500)],
+        upload_to=upload_to_user_directory,
     )
     bio = models.TextField(blank=True, null=True)
     is_celebrity = models.BooleanField(default=False)
