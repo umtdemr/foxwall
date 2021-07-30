@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
             email,
             username,
             password,
-            is_staf=True,
+            is_staff=True,
             is_superuser=True,
         )
         return user
