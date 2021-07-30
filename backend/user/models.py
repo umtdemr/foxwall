@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
-    PermissionsMixin
+    PermissionsMixin,
 )
+
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFit, ResizeToFill
 
 from core.abstract_models import TimeInfoModel
 
@@ -18,7 +21,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            **extra_fields
+            **extra_fields,
         )
         user.save(using=self._db)
 
@@ -30,22 +33,35 @@ class UserManager(BaseUserManager):
             username,
             password,
             is_staf=True,
-            is_superuser=True
+            is_superuser=True,
         )
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
-    """ Custom user model """
+    """Custom user model"""
+
     username = models.CharField(max_length=35, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    bio = models.TextField(blank=True, null=True)
-    is_celebrity = models.BooleanField(default=False)
-    is_hidden = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    first_name = None
+    last_name = None
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_email_verified = models.BooleanField(default=False)
 
     objects = UserManager()
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = "username"
+
+
+# class UserProfile(TimeInfoModel):
+#     user = models.OneToOneField(
+#         User,
+#         on_delete=models.CASCADE,
+#         related_name="profile",
+#     )
+#     name = models.CharField(max_length=200)
+#     avatar =
+#     bio = models.TextField(blank=True, null=True)
+#     is_celebrity = models.BooleanField(default=False)
+#     is_hidden = models.BooleanField(default=False)
