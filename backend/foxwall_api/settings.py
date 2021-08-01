@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # Local apps
     "core",
     "user",
+    "follow",
 ]
 
 MIDDLEWARE = [
