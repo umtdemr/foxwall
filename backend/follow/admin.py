@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from follow.models import Follow, FollowRequest
+
+admin.site.register(Follow)
+admin.site.register(FollowRequest)
