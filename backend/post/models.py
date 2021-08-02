@@ -3,8 +3,15 @@ import uuid
 from django.db import models
 from django.conf import settings
 
+from mptt.models import MPTTModel
+from mptt.managers import TreeManager
+
 from post import PostStatus, PostVisibility
 from core.abstract_models import TimeInfoModel
+
+
+class PostQuerySet(models.QuerySet):
+    pass
 
 
 class Post(TimeInfoModel):
@@ -27,3 +34,12 @@ class Post(TimeInfoModel):
     )
     text = models.TextField()
     is_edited = models.BooleanField(default=False)
+
+    objects = PostQuerySet.as_manager()
+    tree_objects = TreeManager()
+
+    def __str__(self) -> str:
+        return str(self.user)
+
+    def __repr__(self) -> str:
+        return f"<Post {self.user!r}>"

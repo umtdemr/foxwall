@@ -8,7 +8,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -18,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3 RD APPS
     "imagekit",
+    "mptt",
     # Local apps
     "core",
     "user",
@@ -55,7 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "foxwall_api.wsgi.application"
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -63,22 +62,24 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
 
 LANGUAGE_CODE = "tr"
 
@@ -90,7 +91,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 
@@ -100,6 +100,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 AUTH_USER_MODEL = "user.User"
