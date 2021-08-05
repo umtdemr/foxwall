@@ -93,7 +93,7 @@ class UserProfile(TimeInfoModel):
     class Meta:
         index_together = [("id", "user")]
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> str:  # pragma: no cover
         return "<UserProfile %s>" % self.user.username
 
     def __str__(self) -> str:
