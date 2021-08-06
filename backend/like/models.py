@@ -33,7 +33,7 @@ class Like(TimeInfoModel):
         return like
 
     @classmethod
-    def delete_lik(cls, user_id: int, post_id: int) -> "Like":
+    def delete_like(cls, user_id: int, post_id: int) -> "Like":
         return Like.objects.filter(user_id=user_id, post_id=post_id).delete()
 
     @classmethod
