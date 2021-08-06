@@ -9,6 +9,7 @@ import pytest
 from user.models import User, UserProfile
 from post.models import PostStatus
 from post.models import Post, PostImage
+from like.models import Like
 
 
 @pytest.fixture
@@ -30,6 +31,16 @@ def valid_user(db):
         username="mediumgoal",
         email="deneme@w.com",
         password="password"
+    )
+    return user
+
+
+@pytest.fixture
+def valid_user2(db):
+    user = User.objects.create(
+        username="mediumgoals",
+        email="deneme@w.scom",
+        password="passwsord"
     )
     return user
 
@@ -59,4 +70,20 @@ def post_img_obj(db, post_obj, image, media_root):
     return PostImage.objects.create(
         post=post_obj,
         image=image
+    )
+
+
+@pytest.fixture
+def like_obj(db, valid_user, post_obj):
+    return Like.create_like(
+        user_id=valid_user.id,
+        post_id=post_obj.id
+    )
+
+
+@pytest.fixture
+def like_obj2(db, valid_user2, post_obj):
+    return Like.create_like(
+        user_id=valid_user2.id,
+        post_id=post_obj.id
     )
