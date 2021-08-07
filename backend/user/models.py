@@ -16,11 +16,9 @@ from core.abstract_models import TimeInfoModel
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username=None, password=None, **extra_fields):
-        if not email:
+        if not email or not username:
             raise ValueError("Users must have email")
-        if not username:
-            # Add an helper to automatically create username
-            pass
+
         user = self.model(
             email=self.normalize_email(email),
             username=username,

@@ -1,4 +1,7 @@
 import os
+from django.utils import tree
+
+import pytest
 
 from ..models import User, UserProfile
 
@@ -23,3 +26,39 @@ def test_user_profile_media_path(tmpdir, valid_user_profile):
     assert os.path.exists(t_av)
     assert user_profile.cover.path == t_cov
     assert user_profile.avatar.path == t_av
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "username, email, password, is_super, error",
+    [
+        ("mediumgoal", "mediumgoal@gmail.com", "deneme", False, False),
+        ("mediumgoal2", "mediumgoals@gmail.com", "deneme", True, False),
+        ("mediumgoalx", None, "deneme", False, True),
+        (None, "mediq@gmail.com", "deneme", False, True),
+        ("mediumgoal", "mediq@gmail.com", None, False, False),
+    ]
+)
+def test_user_manager(username, email, password, is_super, error):
+    try:
+        if not is_super:
+            user = User.objects.create_user(
+                email,
+                username,
+                password
+            )
+        else:
+            user = User.objects.create_superuser(
+                email,
+                username,
+                password
+            )
+        assert user.username == username
+        assert user.email == email
+        if password is None:
+            assert not user.check_password(password)
+    except ValueError:
+        if error:
+            assert 1
+        else:
+            assert 0
