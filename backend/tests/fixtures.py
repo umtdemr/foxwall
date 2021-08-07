@@ -10,6 +10,7 @@ from user.models import User, UserProfile
 from post.models import PostStatus
 from post.models import Post, PostImage
 from like.models import Like
+from follow.models import FollowRequest, Follow
 
 
 @pytest.fixture
@@ -86,4 +87,36 @@ def like_obj2(db, valid_user2, post_obj):
     return Like.create_like(
         user_id=valid_user2.id,
         post_id=post_obj.id
+    )
+
+
+@pytest.fixture
+def follow_request_obj(db, valid_user, valid_user2):
+    return FollowRequest.objects.create(
+        creator_id=valid_user.id,
+        target_user_id=valid_user2.id
+    )
+
+
+@pytest.fixture
+def follow_request_obj2(db, valid_user, valid_user2):
+    return FollowRequest.objects.create(
+        creator_id=valid_user2.id,
+        target_user_id=valid_user.id
+    )
+
+
+@pytest.fixture
+def follow_obj(db, valid_user, valid_user2):
+    return Follow.objects.create(
+        user_id=valid_user2.id,
+        followed_user_id=valid_user.id
+    )
+
+
+@pytest.fixture
+def follow_obj2(db, valid_user, valid_user2):
+    return Follow.objects.create(
+        user_id=valid_user.id,
+        followed_user_id=valid_user2.id
     )
