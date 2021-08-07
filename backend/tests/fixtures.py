@@ -1,7 +1,7 @@
 from io import BytesIO
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.conf import settings
+from django.conf import settings  # noqa
 
 from PIL import Image
 import pytest
@@ -22,7 +22,7 @@ def image():
 
 
 @pytest.fixture
-def media_root(tmpdir, settings):
+def media_root(tmpdir, settings):  # noqa
     settings.MEDIA_ROOT = str(tmpdir.mkdir("media"))
 
 
