@@ -100,7 +100,7 @@ def follow_request_obj(db, valid_user, valid_user2):
 
 @pytest.fixture
 def follow_request_obj2(db, valid_user, valid_user2):
-    return FollowRequest.objects.create(
+    return FollowRequest.objects.create(  # pragma: no cover
         creator_id=valid_user2.id,
         target_user_id=valid_user.id
     )
@@ -108,7 +108,7 @@ def follow_request_obj2(db, valid_user, valid_user2):
 
 @pytest.fixture
 def follow_obj(db, valid_user, valid_user2):
-    return Follow.objects.create(
+    return Follow.objects.create(  # pragma: no cover
         user_id=valid_user2.id,
         followed_user_id=valid_user.id
     )
@@ -116,7 +116,7 @@ def follow_obj(db, valid_user, valid_user2):
 
 @pytest.fixture
 def follow_obj2(db, valid_user, valid_user2):
-    return Follow.objects.create(
+    return Follow.objects.create(  # pragma: no cover
         user_id=valid_user.id,
         followed_user_id=valid_user2.id
     )
