@@ -1,5 +1,4 @@
 import os
-from django.utils import tree
 
 import pytest
 
