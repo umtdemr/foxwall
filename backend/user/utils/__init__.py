@@ -6,10 +6,6 @@ if TYPE_CHECKING:
     from user.models import UserProfile, User
 
 
-def create_username_with_mail():
-    pass
-
-
 def upload_to_user_directory(
     user_profile: "UserProfile",
     filename: str,
