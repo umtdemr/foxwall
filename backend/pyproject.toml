@@ -11,6 +11,9 @@ Django = "=3.2.2"
 Pillow = "^8.3.1"
 django-imagekit = "^4.0.2"
 django-mptt = "^0.12.0"
+djangorestframework = "^3.12.4"
+django-cors-headers = "^3.7.0"
+drf-spectacular = "^0.17.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
