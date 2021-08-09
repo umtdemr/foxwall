@@ -18,6 +18,9 @@ INSTALLED_APPS = [
     # 3 RD APPS
     "imagekit",
     "mptt",
+    "rest_framework",
+    "corsheaders",
+    "drf_spectacular",
     # Local apps
     "core",
     "user",
@@ -29,6 +32,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -103,3 +107,26 @@ STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+REST_FRAMEWORK = {
+    # OTHER SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Foxwall API',
+    'DESCRIPTION': 'The Foxwall Social Network API',
+    'VERSION': '1.0.0',
+    "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {
+        "name": "Umit Demir",
+        "email": "umitde296@gmail.com",
+        "url": "https://umitde.com",
+    }
+
+    # OTHER SETTINGS
+}
