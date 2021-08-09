@@ -3,9 +3,10 @@ import jwt
 from django.contrib import auth
 from django.conf import settings
 
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status
 
 from .serializers import LoginSerializer
 
@@ -34,4 +35,15 @@ class LoginAPIView(GenericAPIView):
             return Response(data, status.HTTP_200_OK)
         return Response(
             {"detail": "invalid credentials"}, status.HTTP_401_UNAUTHORIZED
+        )
+
+
+class DenemeBirAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {
+                "detail": "You can see it cuz you are authenticated"
+            }
         )

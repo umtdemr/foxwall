@@ -11,6 +11,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
         auth_data = authentication.get_authorization_header(request)
+        auth_data = auth_data.decode("utf-8")
 
         if not auth_data:
             return None
@@ -18,7 +19,11 @@ class JWTAuthentication(authentication.BaseAuthentication):
         prefix, token = auth_data.split(" ")
 
         try:
-            payload = jwt.decode(token, settings.JWT_SECRET_KEY)
+            payload = jwt.decode(
+                token,
+                settings.JWT_SECRET_KEY,
+                algorithms="HS256"
+            )
             user = get_user_model().objects.get(
                 username=payload['username']
             )
