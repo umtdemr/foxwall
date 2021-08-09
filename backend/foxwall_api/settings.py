@@ -106,6 +106,9 @@ STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+# Other settings...
+
 AUTH_USER_MODEL = "user.User"
 
 
@@ -115,6 +118,9 @@ CORS_ALLOW_CREDENTIALS = True
 REST_FRAMEWORK = {
     # OTHER SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'user.backends.JWTAuthentication',
+    )
 }
 
 
@@ -128,6 +134,6 @@ SPECTACULAR_SETTINGS = {
         "email": "umitde296@gmail.com",
         "url": "https://umitde.com",
     }
-
-    # OTHER SETTINGS
 }
+
+JWT_SECRET_KEY = ")N2gkxt^VVBkqkt96BzJkPLffQmA4P89GB7iR5s6oH(vwK$(%o"
