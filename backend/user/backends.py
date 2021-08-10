@@ -16,8 +16,12 @@ class JWTAuthentication(authentication.BaseAuthentication):
         if not auth_data:
             return None
 
-        prefix, token = auth_data.split(" ")
+        auth_token = auth_data.split(" ")
 
+        if len(auth_token) != 2:
+            raise exceptions.AuthenticationFailed("Token is invalid")
+
+        token = auth_token[1]
         try:
             payload = jwt.decode(
                 token,
