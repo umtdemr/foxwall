@@ -115,6 +115,7 @@ AUTH_USER_MODEL = "user.User"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+
 REST_FRAMEWORK = {
     # OTHER SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -122,7 +123,6 @@ REST_FRAMEWORK = {
         'user.backends.JWTAuthentication',
     )
 }
-
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Foxwall API',
@@ -133,7 +133,8 @@ SPECTACULAR_SETTINGS = {
         "name": "Umit Demir",
         "email": "umitde296@gmail.com",
         "url": "https://umitde.com",
-    }
+    },
 }
+
 
 JWT_SECRET_KEY = ")N2gkxt^VVBkqkt96BzJkPLffQmA4P89GB7iR5s6oH(vwK$(%o"

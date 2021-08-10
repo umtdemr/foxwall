@@ -7,7 +7,7 @@ from rest_framework import authentication, exceptions
 
 
 class JWTAuthentication(authentication.BaseAuthentication):
-    """ Custom JWT Authentication"""
+    """ Custom JWT ``Authentication``"""
 
     def authenticate(self, request):
         auth_data = authentication.get_authorization_header(request)
@@ -33,5 +33,3 @@ class JWTAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed("Your token is invalid")
         except jwt.ExpiredSignatureError:
             raise exceptions.AuthenticationFailed("Your token is expired")
-
-        return super().authenticate(request)
