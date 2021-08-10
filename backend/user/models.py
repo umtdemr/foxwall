@@ -1,4 +1,5 @@
-from user.utils import upload_to_user_directory
+
+import jwt
 import uuid
 
 from django.db import models
@@ -7,11 +8,13 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
+from django.conf import settings
 
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
 from core.abstract_models import TimeInfoModel
+from user.utils import upload_to_user_directory
 
 
 class UserManager(BaseUserManager):
@@ -59,6 +62,16 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     objects = UserManager()
     USERNAME_FIELD = "username"
+
+    @property
+    def token(self):
+        return jwt.encode(
+            {
+                "username": self.username,
+                "email": self.email
+            },
+            settings.JWT_SECRET_KEY
+        )
 
 
 class UserProfile(TimeInfoModel):
