@@ -39,6 +39,7 @@ SPECTACULAR_SETTINGS = {
         "email": "umitde296@gmail.com",
         "url": "https://umitde.com",
     },
+    'COMPONENT_SPLIT_REQUEST': True
 }
 
 

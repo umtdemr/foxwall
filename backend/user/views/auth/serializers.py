@@ -37,4 +37,3 @@ class RegisterSerializer(serializers.Serializer):
         required=False
     )
     email = serializers.EmailField(validators=[email_not_taken_validator])
-    token = serializers.CharField()
