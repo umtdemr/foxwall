@@ -1,12 +1,4 @@
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = "django-insecure-bu+)thz_s+&mol(m!+bzex&nj3xpq52!4mm^=3f1zj76hf_=2v"
-
-DEBUG = True
-
-ALLOWED_HOSTS = []
+from .common import BASE_DIR
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,6 +32,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "foxwall_api.urls"
 
 TEMPLATES = [
@@ -60,12 +53,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "foxwall_api.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -105,36 +92,3 @@ MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-# Other settings...
-
-AUTH_USER_MODEL = "user.User"
-
-
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-
-
-REST_FRAMEWORK = {
-    # OTHER SETTINGS
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'user.backends.JWTAuthentication',
-    )
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Foxwall API',
-    'DESCRIPTION': 'The Foxwall Social Network API',
-    'VERSION': '1.0.0',
-    "SERVE_INCLUDE_SCHEMA": False,
-    "CONTACT": {
-        "name": "Umit Demir",
-        "email": "umitde296@gmail.com",
-        "url": "https://umitde.com",
-    },
-}
-
-
-JWT_SECRET_KEY = ")N2gkxt^VVBkqkt96BzJkPLffQmA4P89GB7iR5s6oH(vwK$(%o"
