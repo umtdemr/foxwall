@@ -19,7 +19,6 @@ class LoginSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(
         max_length=settings.MAX_USERNAME_LENGTH,
-        validators=[],
         required=False,
         allow_blank=True,
         validators=[username_not_taken_validator]

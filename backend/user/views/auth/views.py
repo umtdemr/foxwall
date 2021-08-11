@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from .serializers import LoginSerializer
+from .serializers import LoginSerializer, RegisterSerializer
 
 
 class LoginAPIView(GenericAPIView):
@@ -39,3 +39,10 @@ class DenemeBirAPIView(GenericAPIView):
                 "detail": "You can see it cuz you are authenticated"
             }
         )
+
+
+class RegisterAPIView(GenericAPIView):
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        pass
