@@ -73,6 +73,22 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             settings.JWT_SECRET_KEY
         )
 
+    @classmethod
+    def is_email_taken(cls, email: str) -> bool:
+        try:
+            cls.objects.get(email=email)
+            return True
+        except User.DoesNotExist:
+            return False
+
+    @classmethod
+    def is_username_taken(cls, username: str) -> bool:
+        try:
+            cls.objects.get(username=username)
+            return True
+        except User.DoesNotExist:
+            return False
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(

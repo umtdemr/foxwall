@@ -4,6 +4,10 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from core.serializer_fields import RestrictedImageFileSizeField
+from core.validators import (
+    email_not_taken_validator,
+    username_not_taken_validator
+)
 
 
 class LoginSerializer(serializers.Serializer):
@@ -17,7 +21,8 @@ class RegisterSerializer(serializers.Serializer):
         max_length=settings.MAX_USERNAME_LENGTH,
         validators=[],
         required=False,
-        allow_blank=True
+        allow_blank=True,
+        validators=[username_not_taken_validator]
     )
     password = serializers.CharField(
         min_length=settings.MIN_PASSWORD_LENGTH,
@@ -28,7 +33,9 @@ class RegisterSerializer(serializers.Serializer):
         max_length=settings.MAX_PROFILE_NAME_LENGTH
     )
     avatar = RestrictedImageFileSizeField(
-        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE
+        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
+        allow_empty_file=True,
+        required=False
     )
     email = serializers.EmailField(validators=[email_not_taken_validator])
     token = serializers.CharField()
