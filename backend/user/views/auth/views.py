@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema
 
 from .serializers import LoginSerializer, RegisterSerializer
 
@@ -45,8 +44,11 @@ class DenemeBirAPIView(GenericAPIView):
 class RegisterAPIView(GenericAPIView):
     serializer_class = RegisterSerializer
 
-    @extend_schema(
-        description="Avatar must be image",
-    )
     def post(self, request, *args, **kwargs):
-        pass
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        print(serializer)
+
+        return Response(
+            {"d": "s"}
+        )

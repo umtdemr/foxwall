@@ -6,7 +6,9 @@ from rest_framework import serializers
 from core.serializer_fields import RestrictedImageFileSizeField
 from core.validators import (
     email_not_taken_validator,
-    username_not_taken_validator
+    username_not_taken_validator,
+    name_not_contain_k_validator,
+    username_special_character_validator,
 )
 
 
@@ -21,7 +23,10 @@ class RegisterSerializer(serializers.Serializer):
         max_length=settings.MAX_USERNAME_LENGTH,
         required=False,
         allow_blank=True,
-        validators=[username_not_taken_validator]
+        validators=[
+            username_not_taken_validator,
+            username_special_character_validator
+        ]
     )
     password = serializers.CharField(
         min_length=settings.MIN_PASSWORD_LENGTH,
@@ -29,7 +34,8 @@ class RegisterSerializer(serializers.Serializer):
         validators=[validate_password],
     )
     name = serializers.CharField(
-        max_length=settings.MAX_PROFILE_NAME_LENGTH
+        max_length=settings.MAX_PROFILE_NAME_LENGTH,
+        validators=[name_not_contain_k_validator]
     )
     avatar = RestrictedImageFileSizeField(
         max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
