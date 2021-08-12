@@ -1,4 +1,7 @@
+from typing import TYPE_CHECKING
+
 from django.contrib import auth
+from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +9,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from .serializers import LoginSerializer, RegisterSerializer
+
+
+if TYPE_CHECKING:
+    from collections import OrderedDict
 
 
 class LoginAPIView(GenericAPIView):
@@ -47,8 +54,25 @@ class RegisterAPIView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer)
+
+        return self.on_valid(serializer.validated_data)
+
+    def on_valid(self, data: "OrderedDict"):
+        email = data.get("email")
+        username = data.get("username")
+        password = data.get("password")
+        avatar = data.get("avatar")
+        name = data.get("name")
+
+        User = get_user_model()
+        # created_user = User.objects.create(
+        #     email=email,
+        #     username=username,
+        #     password=password,
+        #     avatar=avatar,
+        #     name=name
+        # )
 
         return Response(
-            {"d": "s"}
+            {"created": "s"}
         )
