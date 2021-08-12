@@ -8,7 +8,10 @@ from user.models import User
 
 
 def email_not_taken_validator(email: str):
-    if User.is_email_taken(email):
+    is_got = User.is_email_taken(email)
+    print(f"{is_got=}")
+
+    if is_got:
         return ValidationError(
             _("Email address you entered exists")
         )

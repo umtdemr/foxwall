@@ -4,10 +4,12 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
+from user.models import UserProfile
 from .serializers import LoginSerializer, RegisterSerializer
 
 
@@ -49,6 +51,7 @@ class DenemeBirAPIView(GenericAPIView):
 
 
 class RegisterAPIView(GenericAPIView):
+    parser_classes = (MultiPartParser, FormParser,)
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -65,14 +68,22 @@ class RegisterAPIView(GenericAPIView):
         name = data.get("name")
 
         User = get_user_model()
-        # created_user = User.objects.create(
-        #     email=email,
-        #     username=username,
-        #     password=password,
-        #     avatar=avatar,
-        #     name=name
-        # )
+        created_user = User.objects.create(
+            email=email,
+            username=username,
+            password=password,
+            is_email_verified=True
+        )
+        UserProfile.objects.create(
+            user=created_user,
+            avatar=avatar,
+            name=name
+        )
 
         return Response(
-            {"created": "s"}
+            {
+                "created": True,
+                "username": created_user.username,
+            },
+            status=status.HTTP_201_CREATED
         )
