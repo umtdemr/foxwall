@@ -2,16 +2,17 @@ from typing import TYPE_CHECKING
 
 from django.contrib import auth
 from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from drf_spectacular.utils import OpenApiExample, extend_schema
 
 from user.models import User, UserProfile
 from .serializers import LoginSerializer, RegisterSerializer
-
 
 if TYPE_CHECKING:
     from collections import OrderedDict
@@ -20,6 +21,27 @@ if TYPE_CHECKING:
 class LoginAPIView(GenericAPIView):
     serializer_class = LoginSerializer
 
+    @extend_schema(
+        description=_("User can authenticate with both username and email"),
+        examples=[
+            OpenApiExample(
+                _("With Username"),
+                value={
+                    "username": "testusername",
+                    "password": "password"
+                },
+                request_only=True,
+            ),
+            OpenApiExample(
+                _("With Email"),
+                value={
+                    "email": "email@test.com",
+                    "password": "password"
+                },
+                request_only=True,
+            )
+        ],
+    )
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -46,24 +68,22 @@ class LoginAPIView(GenericAPIView):
                 "token": auth_token
             }
             return Response(data, status.HTTP_200_OK)
-        return Response(
-            {"detail": "invalid credentials"}, status.HTTP_401_UNAUTHORIZED
-        )
+        return Response({"detail": "invalid credentials"},
+                        status.HTTP_401_UNAUTHORIZED)
 
 
 class DenemeBirAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        return Response(
-            {
-                "detail": "You can see it cuz you are authenticated"
-            }
-        )
+        return Response({"detail": "You can see it cuz you are authenticated"})
 
 
 class RegisterAPIView(GenericAPIView):
-    parser_classes = (MultiPartParser, FormParser,)
+    parser_classes = (
+        MultiPartParser,
+        FormParser,
+    )
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -80,22 +100,14 @@ class RegisterAPIView(GenericAPIView):
         name = data.get("name")
 
         User = get_user_model()
-        created_user = User.objects.create(
-            email=email,
-            username=username,
-            password=password,
-            is_email_verified=True
-        )
-        UserProfile.objects.create(
-            user=created_user,
-            avatar=avatar,
-            name=name
-        )
+        created_user = User.objects.create(email=email,
+                                           username=username,
+                                           password=password,
+                                           is_email_verified=True)
+        UserProfile.objects.create(user=created_user, avatar=avatar, name=name)
 
-        return Response(
-            {
-                "created": True,
-                "username": created_user.username,
-            },
-            status=status.HTTP_201_CREATED
-        )
+        return Response({
+            "created": True,
+            "username": created_user.username,
+        },
+                        status=status.HTTP_201_CREATED)
