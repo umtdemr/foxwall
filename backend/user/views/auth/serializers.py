@@ -2,21 +2,28 @@ from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
 from core.serializer_fields import RestrictedImageFileSizeField
 from core.validators import (
     username_not_taken_validator,
     name_not_contain_k_validator,
     username_special_character_validator,
+    email_not_taken_validator,
+    username_n_email_both_empty_validator
 )
-from user.models import User
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    username = serializers.CharField(allow_blank=True)
+    username = serializers.CharField(allow_blank=True, required=False)
+    email = serializers.CharField(allow_blank=True, required=False)
     password = serializers.CharField()
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        username = attrs.get("username")
+
+        username_n_email_both_empty_validator(username, email)
+        return attrs
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -45,6 +52,6 @@ class RegisterSerializer(serializers.Serializer):
     )
     email = serializers.EmailField(
         validators=[
-            UniqueValidator(User.objects.all())
+            email_not_taken_validator
         ]
     )

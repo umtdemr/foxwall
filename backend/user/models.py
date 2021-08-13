@@ -89,6 +89,16 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
         except User.DoesNotExist:
             return False
 
+    @classmethod
+    def get_username_with_email(cls, email: str) -> str:
+        try:
+            user = cls.objects.get(
+                email=email
+            )
+            return user.username
+        except Exception:
+            return ""
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(

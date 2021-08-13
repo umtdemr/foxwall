@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from user.models import UserProfile
+from user.models import User, UserProfile
 from .serializers import LoginSerializer, RegisterSerializer
 
 
@@ -21,16 +21,28 @@ class LoginAPIView(GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        data = request.data
-        username = data.get('username', '')
-        password = data.get('password', '')
-        user = auth.authenticate(username=username, password=password)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
+        return self.on_valid(serializer.data)
+
+    def on_valid(self, data: "OrderedDict"):
+        username = data.get('username', '')
+        email = data.get('email', '')
+        password = data.get('password', '')
+
+        authenticated_w_username = False
+        if username:
+            authenticated_w_username = True
+        elif email and not authenticated_w_username:
+            username = User.get_username_with_email(email)
+
+        user = auth.authenticate(username=username, password=password)
         if user:
             auth_token = user.token
-            serializer = self.serializer_class(user)
             data = {
-                "user": serializer.data,
+                "username": user.username,
+                "email": user.email,
                 "token": auth_token
             }
             return Response(data, status.HTTP_200_OK)
