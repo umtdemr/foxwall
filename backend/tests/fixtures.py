@@ -6,18 +6,12 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings  # noqa
 
 from PIL import Image
-from rest_framework.test import APIClient
 
 from user.models import User, UserProfile
 from post.models import PostStatus
 from post.models import Post, PostImage
 from like.models import Like
 from follow.models import FollowRequest, Follow
-
-
-@pytest.fixture
-def api_client():
-    return APIClient
 
 
 @pytest.fixture
