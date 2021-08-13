@@ -1,4 +1,3 @@
-
 import jwt
 import uuid
 
@@ -18,7 +17,7 @@ from user.utils import upload_to_user_directory
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username=None, password=None, **extra_fields):
+    def create_user(self, email, password, username=None, **extra_fields):
         if not email or not username:
             raise ValueError("Users must have email")
 
@@ -35,8 +34,8 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, username, password):
         user = self.create_user(
             email,
-            username,
             password,
+            username,
             is_staff=True,
             is_superuser=True,
         )
@@ -65,13 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     @property
     def token(self):
-        return jwt.encode(
-            {
-                "username": self.username,
-                "email": self.email
-            },
-            settings.JWT_SECRET_KEY
-        )
+        return jwt.encode({
+            "username": self.username,
+            "email": self.email
+        }, settings.JWT_SECRET_KEY)
 
     @classmethod
     def is_email_taken(cls, email: str) -> bool:
@@ -92,9 +88,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     @classmethod
     def get_username_with_email(cls, email: str) -> str:
         try:
-            user = cls.objects.get(
-                email=email
-            )
+            user = cls.objects.get(email=email)
             return user.username
         except Exception:
             return ""

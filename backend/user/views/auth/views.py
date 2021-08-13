@@ -45,7 +45,6 @@ class LoginAPIView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         return self.on_valid(serializer.data)
 
     def on_valid(self, data: "OrderedDict"):
@@ -58,8 +57,8 @@ class LoginAPIView(GenericAPIView):
             authenticated_w_username = True
         elif email and not authenticated_w_username:
             username = User.get_username_with_email(email)
-
         user = auth.authenticate(username=username, password=password)
+
         if user:
             auth_token = user.token
             data = {
@@ -100,14 +99,18 @@ class RegisterAPIView(GenericAPIView):
         name = data.get("name")
 
         User = get_user_model()
-        created_user = User.objects.create(email=email,
-                                           username=username,
-                                           password=password,
-                                           is_email_verified=True)
+        created_user = User.objects.create_user(
+            email=email,
+            password=password,
+            username=username,
+            is_email_verified=True,
+        )
         UserProfile.objects.create(user=created_user, avatar=avatar, name=name)
 
-        return Response({
-            "created": True,
-            "username": created_user.username,
-        },
-                        status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "created": True,
+                "username": created_user.username,
+            },
+            status=status.HTTP_201_CREATED,
+        )
