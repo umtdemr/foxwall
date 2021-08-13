@@ -10,6 +10,8 @@ __pycache__/
 
 static/
 
+foxwall_api/settings/additional.py
+
 # Distribution / packaging
 .Python
 env/
