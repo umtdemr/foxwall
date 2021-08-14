@@ -41,12 +41,30 @@ def test_login(
     "email, username, password, name, is_cover, is_error, is_throw",
     [
         ("test@test.com", "tst", "emesifre", "Ümit Demir", True, False, False),
-        ("test@test.com", "tst", "desifre", "Ümit Demir", False, False, False),
+        ("test@st.com", "tst", "desiasfre", "Ümit Demir", False, False, False),
         (None, "tst", "denemesifre", "Ümit Demir", False, True, True),
         ("test@test.com", "tst", "password", "Ümit Demir", True, True, False),
         ("test@test.com", "tst", "=9smksd+-", "Ümit<Demir", True, True, False),
         ("test@test.com", "tst", None, "Ümit Demir", True, True, True),
-        ("test@test.com", "tst", "x13j", "Ümit Demir", True, False, False),
+        ("test@test.com", "tst", "x13j", "Ümit Demir", True, True, False),
+        (
+            "test@test.com",
+            "mediumgoal",
+            "x1qweqw3j",
+            "Ümit Demir",
+            True,
+            True,
+            False
+        ),
+        (
+            "deneme@w.com",
+            "qweqwe",
+            "x1qweqw3j",
+            "Ümit Demir",
+            True,
+            True,
+            False
+        ),
     ]
 )
 def test_register(
@@ -73,14 +91,14 @@ def test_register(
         register_data["cover"] = image
     if is_throw:
         with pytest.raises(TypeError):
-            response = api_client().post("/user/register/", register_data)
+            api_client().post("/user/register/", register_data)
     else:
         response = api_client().post("/user/register/", register_data)
         print(response)
+        print(response.status_code)
+        print(response.data)
 
         if is_error:
             assert response.status_code == 400
-
-        print(response)
-        print(response.status_code)
-        print(response.data)
+        else:
+            assert response.status_code == 201
