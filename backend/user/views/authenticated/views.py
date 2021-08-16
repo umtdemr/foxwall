@@ -25,4 +25,13 @@ class UpdateUserAPIView(GenericAPIView):
 
     def on_valid(self, data: "QueryDict", user: "User"):
 
+        user.update(
+            username=data.get("username"),
+            name=data.get("name"),
+            bio=data.get("bio"),
+            is_hidden=data.get("is_hidden"),
+            avatar=data.get("avatar"),
+            cover=data.get("cover"),
+        )
+
         return Response({"updated": True})

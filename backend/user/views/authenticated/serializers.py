@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 from core.serializer_fields import RestrictedImageFileSizeField
 from core.validators import (
-    username_not_taken_validator,
     username_special_character_validator,
     name_not_contain_k_validator
 )

@@ -14,6 +14,7 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
 from core.abstract_models import TimeInfoModel
+from core.validators import username_not_taken_validator
 from user.utils import upload_to_user_directory
 
 
@@ -97,8 +98,38 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     def update(
         self,
         username: Optional[str] = None,
+        name: Optional[str] = None,
+        bio: Optional[str] = None,
+        is_hidden: Optional[bool] = None,
+        avatar=None,
+        cover=None,
+
     ):
-        pass
+        if username:
+            self._update_username(self, username)
+
+        profile = self.profile
+        if name:
+            profile.name = name
+        if bio:
+            profile.bio = bio
+        if is_hidden:
+            profile.is_hidden = is_hidden
+        if avatar:
+            profile.avatar = avatar
+        if cover:
+            profile.cover = cover
+
+        self.save()
+        profile.save()
+
+    def _update_username(self, username: str):
+        if self.username == username:
+            return
+
+        username_not_taken_validator(username)
+
+        self.username = username
 
 
 class UserProfile(TimeInfoModel):

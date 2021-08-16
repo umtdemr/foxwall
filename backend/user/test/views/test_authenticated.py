@@ -13,41 +13,41 @@ from tests.helpers import login_with_client
             True,
             "mediumgoal"
         ),
-        (
-            None,
-            True,
-            True,
-            True,
-            "mediumgoal",
-        ),
-        (
-            "qweqwe",
-            False,
-            True,
-            True,
-            "mediumgoal"
-        ),
-        (
-            None,
-            True,
-            False,
-            True,
-            "mediumgoal"
-        ),
-        (
-            None,
-            True,
-            True,
-            None,
-            "mediumgoal"
-        ),
-        (
-            "selam",
-            False,
-            False,
-            False,
-            "mediumgoal"
-        ),
+        # (
+        #     None,
+        #     True,
+        #     True,
+        #     True,
+        #     "mediumgoal",
+        # ),
+        # (
+        #     "qweqwe",
+        #     False,
+        #     True,
+        #     True,
+        #     "mediumgoal"
+        # ),
+        # (
+        #     None,
+        #     True,
+        #     False,
+        #     True,
+        #     "mediumgoal"
+        # ),
+        # (
+        #     None,
+        #     True,
+        #     True,
+        #     None,
+        #     "mediumgoal"
+        # ),
+        # (
+        #     "selam",
+        #     False,
+        #     False,
+        #     False,
+        #     "mediumgoal"
+        # ),
     ]
 )
 def test_update_profile(
@@ -84,6 +84,7 @@ def test_update_profile(
     if is_hidden is not None:
         data["is_hidden"] = is_hidden
 
+    print(f"{data=}")
     response = client.patch(api_endpoint, data)
 
     assert response.status_code == 200
