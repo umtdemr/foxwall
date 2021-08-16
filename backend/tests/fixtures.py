@@ -1,4 +1,5 @@
 import pytest
+import tempfile
 
 from io import BytesIO
 
@@ -103,3 +104,21 @@ def follow_obj2(db, valid_user, valid_user2):
     return Follow.objects.create(  # pragma: no cover
         user_id=valid_user.id,
         followed_user_id=valid_user2.id)
+
+
+@pytest.fixture
+def user_avatar():
+    image = Image.new('RGB', (100, 100))
+    tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+    image.save(tmp_file)
+    tmp_file.seek(0)
+    return tmp_file
+
+
+@pytest.fixture
+def user_cover():
+    image = Image.new('RGB', (100, 100))
+    tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+    image.save(tmp_file)
+    tmp_file.seek(0)
+    return tmp_file
