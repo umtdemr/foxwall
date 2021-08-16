@@ -1,5 +1,6 @@
 import jwt
 import uuid
+from typing import Optional
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -92,6 +93,12 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             return user.username
         except Exception:
             return ""
+
+    def update(
+        self,
+        username: Optional[str] = None,
+    ):
+        pass
 
 
 class UserProfile(TimeInfoModel):
