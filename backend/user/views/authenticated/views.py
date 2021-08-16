@@ -18,7 +18,6 @@ class UpdateUserAPIView(GenericAPIView):
 
     def patch(self, request: "HttpRequest"):
         serializer = self.serializer_class(data=request.data)
-        print(request.data)
         serializer.is_valid(raise_exception=True)
 
         return self.on_valid(serializer.data, request.user)
