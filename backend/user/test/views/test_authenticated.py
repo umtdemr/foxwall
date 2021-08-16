@@ -70,8 +70,8 @@ def test_update_profile(
 
     data = dict()
 
-    if username:
-        data["username"] = username
+    # if username:
+    #     data["username"] = username
 
     if bio:
         data["bio"] = bio

@@ -6,6 +6,7 @@ from core.serializer_fields import RestrictedImageFileSizeField
 from core.validators import (
     username_not_taken_validator,
     username_special_character_validator,
+    name_not_contain_k_validator
 )
 
 
@@ -15,7 +16,6 @@ class UserProfileUpdateSerializer(serializers.Serializer):
         required=False,
         allow_blank=True,
         validators=[
-            username_not_taken_validator,
             username_special_character_validator
         ]
     )
@@ -35,4 +35,10 @@ class UserProfileUpdateSerializer(serializers.Serializer):
     )
     is_hidden = serializers.BooleanField(
         required=False
+    )
+    name = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=settings.MAX_PROFILE_NAME_LENGTH,
+        validators=[name_not_contain_k_validator]
     )
