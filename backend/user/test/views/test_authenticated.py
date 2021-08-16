@@ -4,43 +4,49 @@ from tests.helpers import login_with_client
 
 
 @pytest.mark.parametrize(
-    "bio, is_cover, is_avatar, is_hidden",
+    "bio, is_cover, is_avatar, is_hidden, username",
     [
         (
             "Example Bio",
             True,
             True,
-            True
+            True,
+            "mediumgoal"
         ),
         (
             None,
             True,
             True,
-            True
+            True,
+            "mediumgoal",
         ),
         (
             "qweqwe",
             False,
             True,
-            True
+            True,
+            "mediumgoal"
         ),
         (
             None,
             True,
             False,
-            True
+            True,
+            "mediumgoal"
         ),
         (
             None,
             True,
             True,
-            None
+            None,
+            "mediumgoal"
         ),
         (
             "selam",
             False,
             False,
-            False
+            False,
+            "mediumgoal"
         ),
     ]
 )
@@ -49,6 +55,7 @@ def test_update_profile(
     is_cover,
     is_avatar,
     is_hidden,
+    username,
     valid_user_profile,
     api_client,
     user_avatar,
@@ -62,6 +69,10 @@ def test_update_profile(
     )
 
     data = dict()
+
+    if username:
+        data["username"] = username
+
     if bio:
         data["bio"] = bio
 
