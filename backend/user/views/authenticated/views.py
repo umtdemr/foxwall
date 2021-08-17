@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING
 
-from rest_framework.generics import GenericAPIView
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.views import APIView
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
 
 from .serializers import UserProfileUpdateSerializer
 
@@ -13,16 +14,21 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
 
 
-class UpdateUserAPIView(GenericAPIView):
-    serializer_class = UserProfileUpdateSerializer
+class ProfileAPIView(APIView):
     permission_classes = (IsAuthenticated, )
     parser_classes = (
+        JSONParser,
         MultiPartParser,
         FormParser,
     )
 
+    @extend_schema(
+        request=UserProfileUpdateSerializer,
+    )
     def patch(self, request: "HttpRequest"):
-        serializer = self.serializer_class(data=request.data, partial=True)
+        serializer = UserProfileUpdateSerializer(
+            data=request.data
+        )
         serializer.is_valid(raise_exception=True)
 
         return self.on_valid(serializer.validated_data, request.user)

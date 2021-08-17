@@ -6,7 +6,7 @@ from user.views.auth.views import (
     DenemeBirAPIView,
 )
 from user.views.authenticated.views import (
-    UpdateUserAPIView
+    ProfileAPIView
 )
 
 app_name = "user"
@@ -15,6 +15,6 @@ app_name = "user"
 urlpatterns = [
     path("register/", RegisterAPIView.as_view(), name="register"),
     path("login/", LoginAPIView.as_view(), name="login"),
-    path("update/", UpdateUserAPIView.as_view(), name="update"),
+    path("me/", ProfileAPIView.as_view(), name="update"),
     path("deneme/", DenemeBirAPIView.as_view(), name="deneme"),
 ]
