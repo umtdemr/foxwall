@@ -106,7 +106,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     ):
         if username:
-            self._update_username(self, username)
+            self._update_username(username)
 
         profile = self.profile
         if name:

@@ -13,41 +13,41 @@ from tests.helpers import login_with_client
             True,
             "mediumgoal"
         ),
-        # (
-        #     None,
-        #     True,
-        #     True,
-        #     True,
-        #     "mediumgoal",
-        # ),
-        # (
-        #     "qweqwe",
-        #     False,
-        #     True,
-        #     True,
-        #     "mediumgoal"
-        # ),
-        # (
-        #     None,
-        #     True,
-        #     False,
-        #     True,
-        #     "mediumgoal"
-        # ),
-        # (
-        #     None,
-        #     True,
-        #     True,
-        #     None,
-        #     "mediumgoal"
-        # ),
-        # (
-        #     "selam",
-        #     False,
-        #     False,
-        #     False,
-        #     "mediumgoal"
-        # ),
+        (
+            None,
+            True,
+            True,
+            True,
+            "mediumgoal",
+        ),
+        (
+            "qweqwe",
+            False,
+            True,
+            True,
+            "mediumgoal"
+        ),
+        (
+            None,
+            True,
+            False,
+            True,
+            "mediumgoal"
+        ),
+        (
+            None,
+            True,
+            True,
+            None,
+            "mediumgoal"
+        ),
+        (
+            "selam",
+            False,
+            False,
+            False,
+            "mediumgoal"
+        ),
     ]
 )
 def test_update_profile(
@@ -58,13 +58,10 @@ def test_update_profile(
     username,
     valid_user_profile,
     api_client,
-    image,
-    image_obj3,
     user_avatar,
     user_cover,
-    media_root,
 ):
-    api_endpoint = "/user/update/"
+    api_endpoint = "/user/me/"
 
     client = login_with_client(
         api_client(),
@@ -80,7 +77,7 @@ def test_update_profile(
         data["bio"] = bio
 
     if is_cover:
-        data["cover"] = image_obj3
+        data["cover"] = user_cover
     if is_avatar:
         data["avatar"] = user_avatar
 
@@ -94,4 +91,3 @@ def test_update_profile(
     response_data = response.data
 
     assert response_data.get("updated")
-    assert 0
