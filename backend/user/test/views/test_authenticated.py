@@ -91,3 +91,24 @@ def test_update_profile(
     response_data = response.data
 
     assert response_data.get("updated")
+
+
+def test_retrieve_me(
+    valid_user_profile,
+    api_client,
+):
+    client = login_with_client(
+        api_client(),
+        valid_user_profile.user
+    )
+
+    response = client.get("user/me/")
+    username = response.data.get("username")
+    email = response.data.get("email")
+    name = response.data.get("name")
+    cover = response.data.get("cover")
+    is_celebrity = response.data.get("is_celebrity")
+    is_hidden = response.data.get("is_hidden")
+    bio = response.data.get("bio")
+
+    assert 0
