@@ -23,14 +23,16 @@ class UserProfileUpdateSerializer(serializers.Serializer):
         required=False,
     )
     avatar = RestrictedImageFileSizeField(
-        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
+        max_upload_size=9999999999,
         allow_empty_file=True,
-        required=False
+        required=False,
+        allow_null=True,
     )
     cover = RestrictedImageFileSizeField(
-        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
+        max_upload_size=999999999,
         allow_empty_file=True,
-        required=False
+        required=False,
+        allow_null=True
     )
     is_hidden = serializers.BooleanField(
         required=False

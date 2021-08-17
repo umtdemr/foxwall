@@ -122,3 +122,11 @@ def user_cover():
     image.save(tmp_file)
     tmp_file.seek(0)
     return tmp_file
+
+
+@pytest.fixture
+def image_obj3():
+    img_data = BytesIO()
+    image = Image.new("RGB", size=(100, 100))
+    image.save(img_data, format="JPEG")
+    return SimpleUploadedFile("products.jpg", img_data.getvalue())

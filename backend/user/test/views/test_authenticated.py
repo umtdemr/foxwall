@@ -58,8 +58,11 @@ def test_update_profile(
     username,
     valid_user_profile,
     api_client,
+    image,
+    image_obj3,
     user_avatar,
     user_cover,
+    media_root,
 ):
     api_endpoint = "/user/update/"
 
@@ -70,22 +73,21 @@ def test_update_profile(
 
     data = dict()
 
-    # if username:
-    #     data["username"] = username
+    if username:
+        data["username"] = username
 
     if bio:
         data["bio"] = bio
 
     if is_cover:
-        data["cover"] = user_cover
+        data["cover"] = image_obj3
     if is_avatar:
         data["avatar"] = user_avatar
 
     if is_hidden is not None:
         data["is_hidden"] = is_hidden
 
-    print(f"{data=}")
-    response = client.patch(api_endpoint, data)
+    response = client.patch(api_endpoint, data, "multipart")
 
     assert response.status_code == 200
 
