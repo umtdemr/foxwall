@@ -25,14 +25,14 @@ def generate_username(email: str) -> str:
 def generate_user_avatar():
     return get_image(
         PLACEHOLDER_DIR,
-        "cover.jpg"
+        "avatar.jpg"
     )
 
 
 def generate_user_cover():
     return get_image(
         PLACEHOLDER_DIR,
-        "avatar.jpg"
+        "cover.jpg"
     )
 
 

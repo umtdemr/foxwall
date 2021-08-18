@@ -11,6 +11,11 @@ from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiExample, extend_schema
 
 from user.models import User, UserProfile
+from user.utils.generate import (
+    generate_user_avatar,
+    generate_user_cover,
+    generate_username
+)
 from .serializers import LoginSerializer, RegisterSerializer
 
 if TYPE_CHECKING:
@@ -90,6 +95,11 @@ class RegisterAPIView(GenericAPIView):
         avatar = data.get("avatar")
         name = data.get("name")
 
+        if not username:
+            username = generate_username(email)
+        if not avatar:
+            avatar = generate_user_avatar()
+
         User = get_user_model()
         created_user = User.objects.create_user(
             email=email,
@@ -97,7 +107,12 @@ class RegisterAPIView(GenericAPIView):
             username=username,
             is_email_verified=True,
         )
-        UserProfile.objects.create(user=created_user, avatar=avatar, name=name)
+        UserProfile.objects.create(
+            user=created_user,
+            avatar=avatar,
+            name=name,
+            cover=generate_user_cover()
+        )
 
         return Response(
             {
