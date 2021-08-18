@@ -147,7 +147,7 @@ class UserProfile(TimeInfoModel):
         null=True,
         format="JPEG",
         options={"quality": 90},
-        processors=[ResizeToFit(width=1024, upscale=False)],
+        processors=[ResizeToFill(500, 500)],
         upload_to=upload_to_user_directory,
         max_length=1000,
     )
@@ -156,7 +156,7 @@ class UserProfile(TimeInfoModel):
         null=True,
         format="JPEG",
         options={"quality": 90},
-        processors=[ResizeToFill(500, 500)],
+        processors=[ResizeToFit(width=1024, upscale=False)],
         upload_to=upload_to_user_directory,
         max_length=1000,
     )
