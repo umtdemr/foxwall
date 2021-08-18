@@ -17,7 +17,7 @@ def upload_to_user_directory(
 
 def _upload_to_user_directory(user: "User", filename: str) -> str:
     generated_filename = generate_new_filename(filename)
-    path = f"users/{user.token}/{generated_filename}"
+    path = f"users/{user.sec_token}/{generated_filename}"
     return path
 
 
