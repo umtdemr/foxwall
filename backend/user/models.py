@@ -131,6 +131,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
         self.username = username
 
+    def get_profile(self) -> "UserProfile":
+        return self.profile
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(

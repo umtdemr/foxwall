@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
 
-from .serializers import UserProfileUpdateSerializer
+from .serializers import UserProfileUpdateSerializer, UserSerializer
+from user.utils import get_user_data_with_serializer
 
 if TYPE_CHECKING:
     from django.http.request import QueryDict
@@ -21,6 +22,15 @@ class ProfileAPIView(APIView):
         MultiPartParser,
         FormParser,
     )
+
+    @extend_schema(
+        request=UserSerializer
+    )
+    def get(self, request: "HttpRequest"):
+        serializer = get_user_data_with_serializer(request.user)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data)
 
     @extend_schema(
         request=UserProfileUpdateSerializer,

@@ -9,6 +9,36 @@ from core.validators import (
 )
 
 
+class UserSerializer(serializers.Serializer):
+    username = serializers.CharField(
+        allow_blank=True,
+        required=False,
+    )
+    email = serializers.EmailField()
+    name = serializers.CharField(
+        allow_blank=True,
+        required=False,
+    )
+    bio = serializers.CharField(
+        allow_blank=True,
+        required=False,
+    )
+    avatar = RestrictedImageFileSizeField(
+        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
+        allow_empty_file=True,
+        required=False,
+        allow_null=True,
+    )
+    cover = RestrictedImageFileSizeField(
+        max_upload_size=settings.MAX_PROFILE_COVER_SIZE,
+        allow_empty_file=True,
+        required=False,
+        allow_null=True
+    )
+    is_hidden = serializers.BooleanField()
+    is_celebrity = serializers.BooleanField()
+
+
 class UserProfileUpdateSerializer(serializers.Serializer):
     username = serializers.CharField(
         max_length=settings.MAX_USERNAME_LENGTH,
@@ -23,13 +53,13 @@ class UserProfileUpdateSerializer(serializers.Serializer):
         required=False,
     )
     avatar = RestrictedImageFileSizeField(
-        max_upload_size=9999999999,
+        max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
         allow_empty_file=True,
         required=False,
         allow_null=True,
     )
     cover = RestrictedImageFileSizeField(
-        max_upload_size=999999999,
+        max_upload_size=settings.MAX_PROFILE_COVER_SIZE,
         allow_empty_file=True,
         required=False,
         allow_null=True

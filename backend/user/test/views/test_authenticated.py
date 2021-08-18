@@ -102,13 +102,17 @@ def test_retrieve_me(
         valid_user_profile.user
     )
 
-    response = client.get("user/me/")
+    response = client.get("/user/me/")
     username = response.data.get("username")
     email = response.data.get("email")
     name = response.data.get("name")
-    cover = response.data.get("cover")
     is_celebrity = response.data.get("is_celebrity")
     is_hidden = response.data.get("is_hidden")
     bio = response.data.get("bio")
 
-    assert 0
+    assert username == str(valid_user_profile.user)
+    assert email == valid_user_profile.user.email
+    assert name == valid_user_profile.name
+    assert is_celebrity == valid_user_profile.is_celebrity
+    assert is_hidden == valid_user_profile.is_hidden
+    assert bio == valid_user_profile.bio
