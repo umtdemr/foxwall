@@ -135,4 +135,11 @@ class RequestNewPasswordAPIView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        email = serializer.validated_data.get("email")
+        user = User.objects.get(email=email)
+
+        token = user.request_password_token()
+
+        print(token)
+
         return Response({"sent": True})

@@ -14,6 +14,7 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
+from user import JwtTypes
 from core.abstract_models import TimeInfoModel
 from core.validators import username_not_taken_validator
 from user.utils import upload_to_user_directory
@@ -101,6 +102,15 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
         except Exception:
             return ""
 
+    def request_password_token(self):
+        generated_request_token = self._generate_password_request_token()
+        #  send email...
+
+        return generated_request_token
+
+    def get_profile(self) -> "UserProfile":
+        return self.profile
+
     def update(
         self,
         username: Optional[str] = None,
@@ -137,8 +147,16 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
         self.username = username
 
-    def get_profile(self) -> "UserProfile":
-        return self.profile
+    def _generate_password_request_token(self):
+        return jwt.encode(
+            {
+                "type": JwtTypes.REQUEST_NEW_PASSWORD,
+                "user_id": self.id,
+                "exp": datetime.utcnow() + timedelta(days=1)
+            },
+            settings.JWT_SECRET_KEY,
+            algorithm='HS256'
+        )
 
 
 class UserProfile(TimeInfoModel):

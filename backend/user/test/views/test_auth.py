@@ -123,3 +123,4 @@ class TestResetPassword:
         )
 
         assert response.data.get("sent")
+        assert 0
