@@ -1,5 +1,6 @@
 import jwt
 import uuid
+from datetime import datetime, timedelta
 from typing import Optional
 
 from django.db import models
@@ -66,10 +67,15 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     @property
     def token(self):
-        return jwt.encode({
-            "username": self.username,
-            "email": self.email
-        }, settings.JWT_SECRET_KEY)
+        return jwt.encode(
+            {
+                "username": self.username,
+                "email": self.email,
+                "exp": datetime.utcnow() + timedelta(hours=24),
+            },
+            settings.JWT_SECRET_KEY,
+            algorithm='HS256'
+        )
 
     @classmethod
     def is_email_taken(cls, email: str) -> bool:
