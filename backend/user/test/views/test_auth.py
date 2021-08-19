@@ -102,3 +102,24 @@ def test_register(
             assert response.status_code == 400
         else:
             assert response.status_code == 201
+
+
+class TestResetPassword:
+    request_end_point = "/user/password-reset-request/"
+    verify_end_point = "/user/reset-password/"
+
+    def test_reset_password_request_view(
+        self,
+        api_client,
+        valid_user,
+    ):
+        client = api_client()
+
+        response = client.post(
+            "/user/password-reset-request/",
+            {
+                "email": valid_user.email,
+            }
+        )
+
+        assert response.data.get("sent")

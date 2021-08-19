@@ -55,3 +55,10 @@ class RegisterSerializer(serializers.Serializer):
             email_not_taken_validator
         ]
     )
+
+
+class ResetPasswordRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[user_email_exists]
+    )
