@@ -36,7 +36,7 @@ def username_n_email_both_empty_validator(username: str, email: str):
 def user_email_exists(email: str):
     User = get_user_model()
 
-    if User.objects.fitler(email=email).count() != 1:
+    if not User.objects.filter(email=email).exists():
         raise ValidationError(
             _("Email address is not valid for request")
         )
