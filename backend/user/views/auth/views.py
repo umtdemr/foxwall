@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -16,10 +16,15 @@ from user.utils.generate import (
     generate_user_cover,
     generate_username
 )
-from .serializers import LoginSerializer, RegisterSerializer
+from .serializers import (
+    LoginSerializer,
+    RegisterSerializer,
+    ResetPasswordRequestSerializer
+)
 
 if TYPE_CHECKING:
     from collections import OrderedDict
+    from django.http import HttpRequest
 
 
 class LoginAPIView(GenericAPIView):
@@ -46,7 +51,7 @@ class LoginAPIView(GenericAPIView):
             )
         ],
     )
-    def post(self, request, *args, **kwargs):
+    def post(self, request: "HttpRequest", *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return self.on_valid(serializer.data)
@@ -82,7 +87,7 @@ class RegisterAPIView(GenericAPIView):
     )
     serializer_class = RegisterSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: "HttpRequest", *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -121,3 +126,13 @@ class RegisterAPIView(GenericAPIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
+class RequestNewPasswordAPIView(GenericAPIView):
+    serializer_class = ResetPasswordRequestSerializer
+
+    def post(self, request: "HttpRequest"):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response({"sent": True})
