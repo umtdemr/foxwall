@@ -9,7 +9,8 @@ from core.validators import (
     name_not_contain_k_validator,
     username_special_character_validator,
     email_not_taken_validator,
-    username_n_email_both_empty_validator
+    username_n_email_both_empty_validator,
+    user_email_exists
 )
 
 

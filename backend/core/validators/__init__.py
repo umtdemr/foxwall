@@ -31,3 +31,12 @@ def username_special_character_validator(username: str):
 def username_n_email_both_empty_validator(username: str, email: str):
     if email is None and username is None or email == "" and username == "":
         raise ValidationError(_("You should provide email and username"))
+
+
+def user_email_exists(email: str):
+    User = get_user_model()
+
+    if User.objects.fitler(email=email).count() != 1:
+        raise ValidationError(
+            _("Email address is not valid for request")
+        )
