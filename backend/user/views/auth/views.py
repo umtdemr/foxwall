@@ -140,6 +140,9 @@ class RequestNewPasswordAPIView(GenericAPIView):
 
         token = user.request_password_token()
 
-        print(token)
-
-        return Response({"sent": True})
+        return Response(
+            {
+                "sent": True,
+                "token": token  # this should be not in here...
+            }
+        )
