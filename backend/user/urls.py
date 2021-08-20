@@ -3,7 +3,8 @@ from django.urls import path
 from user.views.auth.views import (
     RegisterAPIView,
     LoginAPIView,
-    RequestNewPasswordAPIView
+    RequestNewPasswordAPIView,
+    VerifyNewPasswordAPIView
 )
 from user.views.authenticated.views import (
     ProfileAPIView
@@ -19,6 +20,11 @@ urlpatterns = [
         "password-reset-request/",
         RequestNewPasswordAPIView.as_view(),
         name="password-reset-request"
+    ),
+    path(
+        "reset-password/",
+        VerifyNewPasswordAPIView.as_view(),
+        name="reset-password"
     ),
     path("me/", ProfileAPIView.as_view(), name="update"),
 ]

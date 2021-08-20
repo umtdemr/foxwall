@@ -19,7 +19,8 @@ from user.utils.generate import (
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
-    ResetPasswordRequestSerializer
+    ResetPasswordRequestSerializer,
+    VerifyPasswordSerailizer
 )
 
 if TYPE_CHECKING:
@@ -146,3 +147,24 @@ class RequestNewPasswordAPIView(GenericAPIView):
                 "token": token  # this should be not in here...
             }
         )
+
+
+class VerifyNewPasswordAPIView(GenericAPIView):
+    serializer_class = VerifyPasswordSerailizer
+
+    def post(self, request: "HttpRequest"):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        token = serializer.validated_data.get("token")
+        new_password = serializer.validated_data.get("new_password")
+
+        User = get_user_model()
+        user_obj = User.get_user_for_password_token(token)
+
+        user_obj.verify_password_reset_token(
+            token,
+            new_password
+        )
+
+        return Response({"message": "there is more to do"})
