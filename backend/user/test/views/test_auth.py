@@ -123,4 +123,22 @@ class TestResetPassword:
         )
 
         assert response.data.get("sent")
-        assert 0
+
+    def test_password_reset_verify_view(
+        self,
+        api_client,
+        valid_user
+    ):
+        client = api_client()
+
+        token = valid_user._generate_password_request_token()
+        response = client.post(
+            self.verify_end_point,
+            {
+                "token": token,
+                "new_password": "yenibirsifre",
+            }
+        )
+
+        assert response.status_code == 200
+        assert "password updated" in response.data.get("message")
