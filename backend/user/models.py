@@ -124,6 +124,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     def change_password(self, password: str) -> bool:
         self.set_password(password)
+        self.save()
         return True
 
     def request_password_token(self):
