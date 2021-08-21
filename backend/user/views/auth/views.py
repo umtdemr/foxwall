@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -160,11 +160,13 @@ class VerifyNewPasswordAPIView(GenericAPIView):
         new_password = serializer.validated_data.get("new_password")
 
         User = get_user_model()
-        user_obj = User.get_user_for_password_token(token)
-
-        user_obj.verify_password_reset_token(
-            token,
+        user_obj = User.get_user_from_token(token)
+        changed = user_obj.change_password(
             new_password
         )
 
-        return Response({"message": "there is more to do"})
+        return Response(
+            {
+                "message": "password updated" if changed else "not updated"
+            }
+        )

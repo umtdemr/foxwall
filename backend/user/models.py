@@ -1,7 +1,7 @@
 import jwt
 import uuid
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Union
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -13,6 +13,7 @@ from django.conf import settings
 
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
+from rest_framework import exceptions
 
 from user import JwtTypes
 from core.abstract_models import TimeInfoModel
@@ -101,6 +102,29 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             return user.username
         except Exception:
             return ""
+
+    @classmethod
+    def get_user_from_token(cls, token: str) -> Union["User", None]:
+        try:
+            decoded = jwt.decode(
+                token,
+                settings.JWT_SECRET_KEY,
+                algorithms="HS256"
+            )
+            if decoded.get("type") == JwtTypes.REQUEST_NEW_PASSWORD:
+                return cls.objects.get(
+                    id=decoded.get("user_id")
+                )
+        except jwt.DecodeError:
+            raise exceptions.ValidationError("Token is invalid")
+        except jwt.ExpiredSignatureError:
+            raise exceptions.ValidationError("Token expired")
+        except Exception:
+            raise exceptions.ValidationError("Some error occurred")
+
+    def change_password(self, password: str) -> bool:
+        self.set_password(password)
+        return True
 
     def request_password_token(self):
         generated_request_token = self._generate_password_request_token()
