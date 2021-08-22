@@ -9,7 +9,8 @@ from rest_framework import status
 
 from follow.serializers import RequestWithUsernameSerializer
 from follow.utils import (
-    create_follow_request
+    create_follow_request,
+    delete_follow_request
 )
 
 
@@ -40,3 +41,28 @@ class RequestFollowAPIView(GenericAPIView):
             {"message": "created"},
             status=status.HTTP_201_CREATED,
         )
+
+
+class CancelRequestAPIView(GenericAPIView):
+    serializer_class = RequestWithUsernameSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request: "HttpRequest"):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        target_username = serializer.validated_data.get(
+            "username"
+        )
+
+        User = get_user_model()
+        creator = request.user
+        target = User.get_user_with_username(target_username)
+
+        delete_follow_request(
+            creator.id,
+            target.id
+        )
+
+        return Response({
+            "message": "deleted"
+        })

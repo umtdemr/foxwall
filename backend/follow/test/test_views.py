@@ -67,7 +67,7 @@ def test_delete_follow_request_view(
     response = client.post(
         "/follow/cancel-request/",
         {
-            "userame": valid_user2.username
+            "username": valid_user2.username
         }
     )
 
