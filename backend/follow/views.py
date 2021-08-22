@@ -1,4 +1,3 @@
-from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
@@ -6,8 +5,12 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 from follow.serializers import RequestWithUsernameSerializer
+from follow.utils import (
+    create_follow_request
+)
 
 
 if TYPE_CHECKING:
@@ -28,10 +31,12 @@ class RequestFollowAPIView(GenericAPIView):
         creator = request.user
         target_user = User.get_user_with_username(target_username)
 
-        follow_req = FollowRequest.create_follow_request(
-            creator_id=creator.id,
-            target_user_id=target_user.id
+        create_follow_request(
+            creator.id,
+            target_user.id
         )
-        print(follow_req, creator, target_user)
 
-        return Response({"message": "started"})
+        return Response(
+            {"message": "created"},
+            status=status.HTTP_201_CREATED,
+        )

@@ -12,7 +12,7 @@ def test_user_can_follow_request(
     )
 
     response = client.post("/follow/request/", {
-        "target": valid_user2.username,
+        "username": valid_user2.username,
     })
 
     assert response.status_code == 201
