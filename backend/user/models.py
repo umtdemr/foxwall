@@ -104,6 +104,14 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             return ""
 
     @classmethod
+    def get_user_with_username(cls, username: str) -> Union["User", None]:
+        try:
+            user = cls.objects.get(username=username)
+            return user
+        except Exception:
+            return None
+
+    @classmethod
     def get_user_from_token(cls, token: str) -> Union["User", None]:
         try:
             decoded = jwt.decode(
