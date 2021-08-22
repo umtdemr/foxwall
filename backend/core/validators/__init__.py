@@ -40,3 +40,12 @@ def user_email_exists(email: str):
         raise ValidationError(
             _("Email address is not valid for request")
         )
+
+
+def user_username_exists(username: str):
+    User = get_user_model()
+
+    if not User.objects.filter(username=username).exists():
+        raise ValidationError(
+            _("Username is not found")
+        )

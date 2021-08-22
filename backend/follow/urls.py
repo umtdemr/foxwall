@@ -9,6 +9,6 @@ urlpatterns = [
     path(
         "request/",
         v.RequestFollowAPIView.as_view(),
-        "request"
+        name="request",
     )
 ]
