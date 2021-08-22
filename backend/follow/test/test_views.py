@@ -51,3 +51,24 @@ def test_user_can_follow_request(
     })
 
     assert response.status_code == status_code
+
+
+def test_delete_follow_request_view(
+    valid_user,
+    valid_user2,
+    follow_request_obj,
+    api_client,
+):
+    client = login_with_client(
+        api_client(),
+        valid_user
+    )
+
+    response = client.post(
+        "/follow/cancel-request/",
+        {
+            "userame": valid_user2.username
+        }
+    )
+
+    assert response.status_code == 200
