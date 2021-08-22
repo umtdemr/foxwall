@@ -24,7 +24,8 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name='schema'),
         name='redoc'
     ),
-    path("user/", include("user.urls", namespace="user"))
+    path("user/", include("user.urls", namespace="user")),
+    path("follow/", include("follow.urls", namespace="follow"))
 ]
 
 if settings.DEBUG:
