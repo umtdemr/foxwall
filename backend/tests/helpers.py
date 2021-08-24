@@ -11,7 +11,7 @@ def login_with_client(
     user: "User"
 ):
     client.login(
-        username="mediumgoal",
+        username=user.username,
         password="password",
     )
     client.credentials(

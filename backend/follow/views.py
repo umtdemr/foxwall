@@ -1,3 +1,4 @@
+from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
@@ -66,3 +67,15 @@ class CancelRequestAPIView(GenericAPIView):
         return Response({
             "message": "deleted"
         })
+
+
+class RecievedFollowRequestsAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request: "HttpRequest"):
+        queryset = FollowRequest.objects.filter(
+            target_user_id=request.user.id
+        )
+        print(request.user)
+        print(queryset)
+        return Response({"started": "to go on"})
