@@ -1,4 +1,3 @@
-from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
@@ -6,9 +5,12 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import serializers, status
+from rest_framework import status
 
-from follow.serializers import RequestReceivedFollowSerializer, RequestWithUsernameSerializer
+from follow.serializers import (
+    RequestReceivedFollowSerializer,
+    RequestWithUsernameSerializer
+)
 from follow.utils import (
     create_follow_request,
     delete_follow_request
