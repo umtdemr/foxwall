@@ -6,6 +6,8 @@ from core.validators import (
     username_special_character_validator,
     user_username_exists,
 )
+from user.serializers import DisplayUserSerializer
+from follow.models import FollowRequest
 
 
 class RequestWithUsernameSerializer(serializers.Serializer):
@@ -16,3 +18,15 @@ class RequestWithUsernameSerializer(serializers.Serializer):
             user_username_exists
         ]
     )
+
+
+class RequestReceivedFollowSerializer(serializers.ModelSerializer):
+    creator = DisplayUserSerializer()
+
+    class Meta:
+        model = FollowRequest
+        fields = (
+            'id',
+            'creator',
+        )
+        read_only_fields = ('id', )

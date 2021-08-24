@@ -93,4 +93,6 @@ def test_recieved_follow_requests_view(
 
     assert response.status_code == 200
     assert response.data.get("count") == 1
-    # assert follow_request_obj.creator.username in response.data.get("results")
+    results = response.data.get("results")[0]
+    assert follow_request_obj.creator.username in \
+        results["creator"]["username"]

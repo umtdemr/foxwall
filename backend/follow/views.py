@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import serializers, status
 
-from follow.serializers import RequestWithUsernameSerializer
+from follow.serializers import RequestReceivedFollowSerializer, RequestWithUsernameSerializer
 from follow.utils import (
     create_follow_request,
     delete_follow_request
@@ -74,5 +74,15 @@ class RecievedFollowRequestsAPIView(GenericAPIView):
 
     def post(self, request: "HttpRequest"):
         received_requests = request.user.get_received_follow_requests()
-        print(received_requests)
-        return Response({"started": "to go on"})
+        serializer = RequestReceivedFollowSerializer(
+            data=received_requests,
+            many=True,
+            context={'request': request}
+        )
+        serializer.is_valid()
+        return Response(
+            {
+                "results": serializer.data,
+                "count": received_requests.count()
+            }
+        )
