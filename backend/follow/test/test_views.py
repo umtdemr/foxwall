@@ -106,6 +106,8 @@ def test_reject_follow_request_view(
         api_client(),
         follow_request_obj.target_user.token
     )
+    print(follow_request_obj.creator)
+    print(follow_request_obj.target_user)
 
     response = client.post(
         "/follow/reject-follow-request/",

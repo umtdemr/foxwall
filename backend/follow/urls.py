@@ -20,5 +20,12 @@ urlpatterns = [
         "recieved-requests/",
         v.RecievedFollowRequestsAPIView.as_view(),
         name="recieved-requests",
-    )
+    ),
+    path(
+
+        "reject-follow-request/",
+        v.RejectFollowRequestAPIView.as_view(),
+        name="reject-follow-request",
+    ),
+
 ]

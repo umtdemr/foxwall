@@ -1,3 +1,4 @@
+from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
@@ -94,5 +95,18 @@ class RejectFollowRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
 
     def post(self, request: "HttpRequest"):
-        # TODO  HERE WILL BE DONE...
-        pass
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        User = get_user_model()
+        rejeting_username = serializer.validated_data.get("username")
+        rejecting_user = User.get_user_with_username(rejeting_username)
+
+        FollowRequest.delete_follow_request(
+            creator_id=rejecting_user.id,
+            target_user_id=request.user.id
+        )
+
+        return Response({
+            "message": "rejected"
+        })
