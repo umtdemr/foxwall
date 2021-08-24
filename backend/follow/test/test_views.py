@@ -53,7 +53,7 @@ def test_user_can_follow_request(
     assert response.status_code == status_code
 
 
-def test_delete_follow_request_view(
+def test_cancel_follow_request_view(
     valid_user,
     valid_user2,
     follow_request_obj,
@@ -72,3 +72,22 @@ def test_delete_follow_request_view(
     )
 
     assert response.status_code == 200
+
+
+def test_recieved_follow_requests_view(
+    follow_request_obj,
+    api_client
+):
+
+    client = login_with_client(
+        api_client(),
+        follow_request_obj.creator
+    )
+
+    response = client.post(
+        "/follow/recieved-requests/",
+    )
+
+    assert response.status_code == 200
+    assert response.data.get("count") == 1
+    assert follow_request_obj.creator.username in response.data.get("results")
