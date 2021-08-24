@@ -17,9 +17,9 @@ urlpatterns = [
         name="cancel-request",
     ),
     path(
-        "recieved-requests/",
-        v.RecievedFollowRequestsAPIView.as_view(),
-        name="recieved-requests",
+        "received-requests/",
+        v.ReceivedFollowRequestsAPIView.as_view(),
+        name="received-requests",
     ),
     path(
 

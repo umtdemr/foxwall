@@ -72,7 +72,7 @@ class CancelRequestAPIView(GenericAPIView):
         })
 
 
-class RecievedFollowRequestsAPIView(GenericAPIView):
+class ReceivedFollowRequestsAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self, request: "HttpRequest"):
