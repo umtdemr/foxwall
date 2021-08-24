@@ -96,3 +96,21 @@ def test_recieved_follow_requests_view(
     results = response.data.get("results")[0]
     assert follow_request_obj.creator.username in \
         results["creator"]["username"]
+
+
+def test_reject_follow_request_view(
+    follow_request_obj,
+    api_client
+):
+    client = login_with_client(
+        api_client(),
+        follow_request_obj.target_user.token
+    )
+
+    response = client.post(
+        "/follow/reject-follow-request/",
+        {
+            "username": follow_request_obj.creater.username
+        }
+    )
+    assert 0
