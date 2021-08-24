@@ -73,9 +73,6 @@ class RecievedFollowRequestsAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self, request: "HttpRequest"):
-        queryset = FollowRequest.objects.filter(
-            target_user_id=request.user.id
-        )
-        print(request.user)
-        print(queryset)
+        received_requests = request.user.get_received_follow_requests()
+        print(received_requests)
         return Response({"started": "to go on"})

@@ -191,6 +191,9 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             algorithm='HS256'
         )
 
+    def get_received_follow_requests(self):
+        return self.coming_follow_requests.all()
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(
