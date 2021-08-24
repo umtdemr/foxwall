@@ -110,7 +110,8 @@ def test_reject_follow_request_view(
     response = client.post(
         "/follow/reject-follow-request/",
         {
-            "username": follow_request_obj.creater.username
+            "username": follow_request_obj.creator.username
         }
     )
-    assert 0
+    assert response.status_code == 200
+    assert response.data.get("message") == "rejected"
