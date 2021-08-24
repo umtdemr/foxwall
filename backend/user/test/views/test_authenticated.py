@@ -65,7 +65,7 @@ def test_update_profile(
 
     client = login_with_client(
         api_client(),
-        valid_user_profile.user
+        valid_user_profile.user.token
     )
 
     data = dict()
@@ -99,7 +99,7 @@ def test_retrieve_me(
 ):
     client = login_with_client(
         api_client(),
-        valid_user_profile.user
+        valid_user_profile.user.token
     )
 
     response = client.get("/user/me/")

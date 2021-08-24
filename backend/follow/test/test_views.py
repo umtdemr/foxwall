@@ -46,7 +46,7 @@ def test_user_can_follow_request(
         target_username = "not_exist_username"
     client = login_with_client(
         api_client(),
-        creator
+        creator.token
     )
 
     response = client.post("/follow/request/", {
@@ -64,7 +64,7 @@ def test_cancel_follow_request_view(
 ):
     client = login_with_client(
         api_client(),
-        valid_user
+        valid_user.token
     )
 
     response = client.post(
@@ -84,7 +84,7 @@ def test_recieved_follow_requests_view(
 
     client = login_with_client(
         api_client(),
-        follow_request_obj.creator
+        follow_request_obj.target_user.token
     )
 
     response = client.post(
@@ -92,5 +92,5 @@ def test_recieved_follow_requests_view(
     )
 
     assert response.status_code == 200
-    # assert response.data.get("count") == 1
+    assert response.data.get("count") == 1
     # assert follow_request_obj.creator.username in response.data.get("results")
