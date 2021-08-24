@@ -1,6 +1,12 @@
+from django.conf import settings
+
 from rest_framework import serializers
 
 from user.models import User, UserProfile
+from core.validators import (
+    user_username_exists,
+    username_special_character_validator
+)
 
 
 class DisplayProfileSerializer(serializers.ModelSerializer):
@@ -25,3 +31,14 @@ class DisplayUserSerializer(serializers.ModelSerializer):
             'profile',
         )
         read_only_fields = ('id', )
+
+
+class RequestWithUsernameSerializer(serializers.Serializer):
+    username = serializers.CharField(
+        max_length=settings.MAX_USERNAME_LENGTH,
+        allow_blank=False,
+        validators=[
+            username_special_character_validator,
+            user_username_exists
+        ]
+    )

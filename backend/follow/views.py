@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from user.serializers import RequestWithUsernameSerializer
 from follow.serializers import (
     RequestReceivedFollowSerializer,
-    RequestWithUsernameSerializer
 )
 from follow.utils import (
     create_follow_request,
@@ -88,3 +88,11 @@ class RecievedFollowRequestsAPIView(GenericAPIView):
                 "count": received_requests.count()
             }
         )
+
+
+class RejectFollowRequestAPIView(GenericAPIView):
+    serializer_class = RequestWithUsernameSerializer
+
+    def post(self, request: "HttpRequest"):
+        # TODO  HERE WILL BE DONE...
+        pass
