@@ -1,4 +1,3 @@
-from user.utils.follow_request import allow_follow_request
 from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
@@ -16,6 +15,10 @@ from follow.serializers import (
 from follow.utils import (
     create_follow_request,
     delete_follow_request
+)
+from user.utils.follow_request import (
+    allow_follow_request,
+    unfollow
 )
 
 
@@ -132,5 +135,28 @@ class AllowFollowRequestAPIView(GenericAPIView):
         return Response(
             {
                 "message": "allowed"
+            }
+        )
+
+
+class UnfollowRequestAPIView(GenericAPIView):
+    serializer_class = RequestWithUsernameSerializer
+
+    def post(self, request: "HttpRequest"):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        User = get_user_model()
+        unfollowing_username = serializer.validated_data.get("username")
+        unfollowing_user = User.get_user_with_username(unfollowing_username)
+
+        unfollow(
+            request.user.id,
+            unfollowing_user.id
+        )
+
+        return Response(
+            {
+                "message": "unfollowed"
             }
         )

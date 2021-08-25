@@ -10,3 +10,13 @@ def allow_follow_request(user_id: int, allowing_user_id: int):
         user_id=allowing_user_id,
         followed_user_id=user_id
     )
+
+
+def unfollow(
+    user_id: int,
+    unfollowing_user_id: int,
+):
+    Follow.delete_follow(
+        user_id,
+        unfollowing_user_id
+    )

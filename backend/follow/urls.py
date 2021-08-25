@@ -33,4 +33,9 @@ urlpatterns = [
         v.AllowFollowRequestAPIView.as_view(),
         name="allow-follow-request",
     ),
+    path(
+        "unfollow/",
+        v.UnfollowRequestAPIView.as_view(),
+        name="unfollow",
+    ),
 ]
