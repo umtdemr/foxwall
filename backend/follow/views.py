@@ -110,3 +110,14 @@ class RejectFollowRequestAPIView(GenericAPIView):
         return Response({
             "message": "rejected"
         })
+
+
+class AllowFollowRequestAPIView(GenericAPIView):
+    serializer_class = RequestWithUsernameSerializer
+
+    def post(self, request: "HttpRequest"):
+        return Response(
+            {
+                "message": "rejected"
+            }
+        )

@@ -27,5 +27,10 @@ urlpatterns = [
         v.RejectFollowRequestAPIView.as_view(),
         name="reject-follow-request",
     ),
+    path(
 
+        "allow-follow-request/",
+        v.AllowFollowRequestAPIView.as_view(),
+        name="allow-follow-request",
+    ),
 ]
