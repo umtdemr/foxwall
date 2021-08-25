@@ -135,3 +135,23 @@ def test_allow_follow_request_view(
 
     assert response.status_code == 200
     assert response.data.get("message") == "allowed"
+
+
+def test_unfollow_view(
+    follow_obj,
+    api_client
+):
+    client = login_with_client(
+        api_client(),
+        follow_obj.user.token
+    )
+
+    response = client.post(
+        "/follow/allow-follow-request/",
+        {
+            "username": follow_obj.followed_user.username
+        }
+    )
+
+    assert response.status_code == 200
+    assert response.data.get("message") == "unfollowed"
