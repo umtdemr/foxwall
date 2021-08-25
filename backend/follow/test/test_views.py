@@ -147,7 +147,7 @@ def test_unfollow_view(
     )
 
     response = client.post(
-        "/follow/allow-follow-request/",
+        "/follow/unfollow/",
         {
             "username": follow_obj.followed_user.username
         }
