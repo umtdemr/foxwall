@@ -106,8 +106,6 @@ def test_reject_follow_request_view(
         api_client(),
         follow_request_obj.target_user.token
     )
-    print(follow_request_obj.creator)
-    print(follow_request_obj.target_user)
 
     response = client.post(
         "/follow/reject-follow-request/",
@@ -117,3 +115,23 @@ def test_reject_follow_request_view(
     )
     assert response.status_code == 200
     assert response.data.get("message") == "rejected"
+
+
+def test_allow_follow_request_view(
+    follow_request_obj,
+    api_client
+):
+    client = login_with_client(
+        api_client(),
+        follow_request_obj.target_user.token
+    )
+
+    response = client.post(
+        "/follow/allow-follow-request/",
+        {
+            "username": follow_request_obj.creator.username
+        }
+    )
+
+    assert response.status_code == 200
+    assert response.data.get("message") == "allowed"
