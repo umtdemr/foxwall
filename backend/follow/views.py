@@ -1,3 +1,4 @@
+from user.utils.follow_request import allow_follow_request
 from follow.models import FollowRequest
 from typing import TYPE_CHECKING
 
@@ -116,8 +117,20 @@ class AllowFollowRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
 
     def post(self, request: "HttpRequest"):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        User = get_user_model()
+        allowing_username = serializer.validated_data.get("username")
+        allowing_user = User.get_user_with_username(allowing_username)
+
+        allow_follow_request(
+            request.user.id,
+            allowing_user.id
+        )
+
         return Response(
             {
-                "message": "rejected"
+                "message": "allowed"
             }
         )

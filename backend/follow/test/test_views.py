@@ -134,4 +134,4 @@ def test_allow_follow_request_view(
     )
 
     assert response.status_code == 200
-    # assert response.data.get("message") == "allowed"
+    assert response.data.get("message") == "allowed"
