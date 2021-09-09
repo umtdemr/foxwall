@@ -1,7 +1,7 @@
 import jwt
 import uuid
 from datetime import datetime, timedelta
-from typing import Optional, Union
+from typing import Optional, Union, TYPE_CHECKING
 
 from django.db import models
 from django.db.models import Q
@@ -20,6 +20,10 @@ from user import JwtTypes
 from core.abstract_models import TimeInfoModel
 from core.validators import username_not_taken_validator
 from user.utils import upload_to_user_directory
+
+
+if TYPE_CHECKING:
+    from follow.models import Follow, FollowRequest
 
 
 class UserManager(BaseUserManager):
@@ -192,10 +196,10 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             algorithm='HS256'
         )
 
-    def get_received_follow_requests(self):
+    def get_received_follow_requests(self) -> "FollowRequest":
         return self.coming_follow_requests.all()
 
-    def get_followers(self, q: Optional[str] = None):
+    def get_followers(self, q: Optional[str] = None) -> "Follow":
         if q:
             return self.followers.filter(
                 Q(user__email=q) |
@@ -204,7 +208,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             )
         return self.followers.all()
 
-    def get_follows(self, q: Optional[str] = None):
+    def get_follows(self, q: Optional[str] = None) -> "Follow":
         if q:
             return self.follows.filter(
                 Q(followed_user__email=q) |
