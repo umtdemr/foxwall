@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from typing import Optional, Union
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
@@ -193,6 +194,15 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     def get_received_follow_requests(self):
         return self.coming_follow_requests.all()
+
+    def get_followers(self, q: Optional[str] = None):
+        if q:
+            return self.followers.filter(
+                Q(user__email=q) |
+                Q(user__username=q) |
+                Q(user__profile__name=q)
+            )
+        return self.followers.all()
 
 
 class UserProfile(TimeInfoModel):

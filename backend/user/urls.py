@@ -4,11 +4,10 @@ from user.views.auth.views import (
     RegisterAPIView,
     LoginAPIView,
     RequestNewPasswordAPIView,
-    VerifyNewPasswordAPIView
+    VerifyNewPasswordAPIView,
 )
-from user.views.authenticated.views import (
-    ProfileAPIView
-)
+from user.views.authenticated.views import ProfileAPIView
+from user.views.followers.views import FollowersAPIView
 
 app_name = "user"
 
@@ -19,12 +18,13 @@ urlpatterns = [
     path(
         "password-reset-request/",
         RequestNewPasswordAPIView.as_view(),
-        name="password-reset-request"
+        name="password-reset-request",
     ),
     path(
         "reset-password/",
         VerifyNewPasswordAPIView.as_view(),
-        name="reset-password"
+        name="reset-password",
     ),
     path("me/", ProfileAPIView.as_view(), name="update"),
+    path("followers/", FollowersAPIView.as_view(), name="followers"),
 ]
