@@ -18,11 +18,9 @@ class RequestReceivedFollowSerializer(serializers.ModelSerializer):
 
 class FollowSerailizer(serializers.ModelSerializer):
     user = DisplayUserSerializer()
-    followed_user = DisplayUserSerializer()
 
     class Meta:
         model = Follow
         fields = (
             'user',
-            'followed_user'
         )
