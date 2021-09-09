@@ -16,11 +16,21 @@ class RequestReceivedFollowSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', )
 
 
-class FollowSerailizer(serializers.ModelSerializer):
+class FollowerSerailizer(serializers.ModelSerializer):
     user = DisplayUserSerializer()
 
     class Meta:
         model = Follow
         fields = (
             'user',
+        )
+
+
+class FollowSerailizer(serializers.ModelSerializer):
+    followed_user = DisplayUserSerializer()
+
+    class Meta:
+        model = Follow
+        fields = (
+            'followed_user',
         )

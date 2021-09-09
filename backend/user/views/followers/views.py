@@ -1,12 +1,10 @@
-from follow.models import Follow
 from typing import TYPE_CHECKING
 
-from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from follow.serializers import FollowSerailizer
+from follow.serializers import FollowerSerailizer, FollowSerailizer
 
 
 if TYPE_CHECKING:
@@ -20,7 +18,7 @@ class FollowersAPIView(GenericAPIView):
         search_param = request.query_params.get("q")
 
         followers = request.user.get_followers(q=search_param)
-        serializer = FollowSerailizer(
+        serializer = FollowerSerailizer(
             instance=followers,
             many=True,
         )
@@ -28,4 +26,22 @@ class FollowersAPIView(GenericAPIView):
         return Response({
             "results": serializer.data,
             "count": followers.count()
+        })
+
+
+class FollowsAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: "HttpRequest"):
+        search_param = request.query_params.get("q")
+
+        follows = request.user.get_follows(q=search_param)
+        serializer = FollowSerailizer(
+            instance=follows,
+            many=True,
+        )
+
+        return Response({
+            "results": serializer.data,
+            "count": follows.count()
         })

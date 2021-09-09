@@ -204,6 +204,15 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             )
         return self.followers.all()
 
+    def get_follows(self, q: Optional[str] = None):
+        if q:
+            return self.follows.filter(
+                Q(followed_user__email=q) |
+                Q(followed_user__username__icontains=q) |
+                Q(followed_user__profile__name__icontains=q)
+            )
+        return self.follows.all()
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(
