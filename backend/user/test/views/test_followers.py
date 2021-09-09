@@ -7,6 +7,7 @@ def test_followers_api_view(follow_obj, api_client):
     response = client.get("/user/followers/")
 
     assert response.status_code == 200
+    assert response.data.get("count") == 1
 
 
 def test_follows_api_view(follow_obj, api_client):
@@ -15,3 +16,4 @@ def test_follows_api_view(follow_obj, api_client):
     response = client.get("/user/follows/")
 
     assert response.status_code == 200
+    assert response.data.get("count") == 1
