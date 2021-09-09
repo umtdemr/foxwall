@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from user.serializers import DisplayUserSerializer
-from follow.models import FollowRequest
+from follow.models import FollowRequest, Follow
 
 
 class RequestReceivedFollowSerializer(serializers.ModelSerializer):
@@ -14,3 +14,15 @@ class RequestReceivedFollowSerializer(serializers.ModelSerializer):
             'creator',
         )
         read_only_fields = ('id', )
+
+
+class FollowSerailizer(serializers.ModelSerializer):
+    user = DisplayUserSerializer()
+    followed_user = DisplayUserSerializer()
+
+    class Meta:
+        model = Follow
+        fields = (
+            'user',
+            'followed_user'
+        )
