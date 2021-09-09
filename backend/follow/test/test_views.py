@@ -87,7 +87,7 @@ def test_received_follow_requests_view(
         follow_request_obj.target_user.token
     )
 
-    response = client.post(
+    response = client.get(
         "/follow/received-requests/",
     )
 

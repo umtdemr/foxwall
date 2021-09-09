@@ -79,14 +79,13 @@ class CancelRequestAPIView(GenericAPIView):
 class ReceivedFollowRequestsAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request: "HttpRequest"):
+    def get(self, request: "HttpRequest"):
         received_requests = request.user.get_received_follow_requests()
         serializer = RequestReceivedFollowSerializer(
-            data=received_requests,
+            instance=received_requests,
             many=True,
             context={'request': request}
         )
-        serializer.is_valid()
         return Response(
             {
                 "results": serializer.data,

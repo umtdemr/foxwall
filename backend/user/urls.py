@@ -7,7 +7,7 @@ from user.views.auth.views import (
     VerifyNewPasswordAPIView,
 )
 from user.views.authenticated.views import ProfileAPIView
-from user.views.followers.views import FollowersAPIView, FollowsAPIView
+from user.views.follow.views import FollowersAPIView, FollowsAPIView
 
 app_name = "user"
 
