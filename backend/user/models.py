@@ -199,8 +199,8 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
         if q:
             return self.followers.filter(
                 Q(user__email=q) |
-                Q(user__username=q) |
-                Q(user__profile__name=q)
+                Q(user__username__icontains=q) |
+                Q(user__profile__name__icontains=q)
             )
         return self.followers.all()
 

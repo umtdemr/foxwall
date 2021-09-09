@@ -17,4 +17,7 @@ class FollowersAPIView(APIView):
         user = request.user
         search_param = request.GET.get("q")
 
+        followers = user.get_followers(q=search_param)
+        print(followers)
+
         return Response({"message": "Yes Dude"})
