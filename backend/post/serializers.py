@@ -16,6 +16,7 @@ class PostImageSerializer(serializers.Serializer):
 
 class PostCreateSerializer(serializers.ModelSerializer):
     image = PostImageSerializer(many=True, required=False)
+    text = serializers.CharField(max_length=300, required=False)
 
     class Meta:
         model = Post
