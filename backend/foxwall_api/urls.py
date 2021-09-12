@@ -25,7 +25,8 @@ urlpatterns = [
         name='redoc'
     ),
     path("user/", include("user.urls", namespace="user")),
-    path("follow/", include("follow.urls", namespace="follow"))
+    path("follow/", include("follow.urls", namespace="follow")),
+    path("post/", include("post.urls", namespace="post"))
 ]
 
 if settings.DEBUG:
