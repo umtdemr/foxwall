@@ -19,7 +19,6 @@ class PostCreateAPIView(GenericAPIView):
     #  TODO: Must add permission for auth.
 
     def post(self, request: "HttpRequest"):
-        print(request.data)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         images = dict((request.data).lists())['image']

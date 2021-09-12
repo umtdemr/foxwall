@@ -4,7 +4,7 @@ from tests.helpers import login_with_client
 def test_share_post(
     api_client,
     valid_user_profile,
-    image,
+    user_cover,
     media_root
 ):
     client = login_with_client(
@@ -14,7 +14,7 @@ def test_share_post(
 
     post_data = {
         "text": "Bu bir post denemesidir",
-        "image": image
+        "image": user_cover
     }
 
     response = client.post("/post/create/", post_data)
