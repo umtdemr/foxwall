@@ -35,7 +35,7 @@ class Post(MPTTModel, TimeInfoModel):
         choices=PostVisibility.CHOICES,
         default=PostVisibility.VISIBLE,
     )
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
     is_edited = models.BooleanField(default=False)
     parent = models.ForeignKey("self",
                                blank=True,
