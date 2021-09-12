@@ -1,8 +1,10 @@
+from post.utils.crud import create_post
 from typing import TYPE_CHECKING
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import PostCreateSerializer, PostImageSerializer
 
@@ -16,12 +18,13 @@ class PostCreateAPIView(GenericAPIView):
         FormParser,
     )
     serializer_class = PostCreateSerializer
-    #  TODO: Must add permission for auth.
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request: "HttpRequest"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         images = dict((request.data).lists())['image']
+        image_list = []
         if images:
             mod_data = []
             for image in images:
@@ -32,5 +35,11 @@ class PostCreateAPIView(GenericAPIView):
             )
 
             image_serializer.is_valid(raise_exception=True)
+            image_list = image_serializer.validated_data
 
+        create_post(
+            request.user,
+            serializer.validated_data.get("text"),
+            images=image_list
+        )
         return Response({"message": "Started to post section!"})
