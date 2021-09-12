@@ -23,7 +23,7 @@ class PostCreateAPIView(GenericAPIView):
     def post(self, request: "HttpRequest"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        images = dict((request.data).lists())['image']
+        images = dict((request.data).lists()).get("image")
         image_list = []
         if images:
             mod_data = []

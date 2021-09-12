@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Optional, List
 
 from post import PostStatus, PostVisibility
 from post.models import Post, PostImage
+from core.validators.post import text_or_image_must_required
 
 
 if TYPE_CHECKING:
@@ -15,6 +16,7 @@ def create_post(
     visibility: PostVisibility = PostVisibility.VISIBLE,
     images: Optional[List] = None,
 ):
+    text_or_image_must_required(text, images)
     post = Post(
         user=user,
         text=text,
