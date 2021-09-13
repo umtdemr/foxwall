@@ -18,8 +18,8 @@ class PostCreateAPIView(GenericAPIView):
         MultiPartParser,
         FormParser,
     )
-    serializer_class = PostCreateSerializer
     permission_classes = (IsAuthenticated, )
+    serializer_class = PostCreateSerializer
 
     def post(self, request: "HttpRequest"):
         serializer = self.serializer_class(data=request.data)
@@ -38,9 +38,19 @@ class PostCreateAPIView(GenericAPIView):
             image_serializer.is_valid(raise_exception=True)
             image_list = image_serializer.validated_data
 
-        create_post(
+        uuid = create_post(
             request.user,
             serializer.validated_data.get("text"),
             images=image_list
         )
-        return Response({"message": "created"}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"message": "created", "token": uuid},
+            status=status.HTTP_201_CREATED
+        )
+
+
+class PostDeleteAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated, )
+
+    def delete(self, request: "HttpRequest", post_token: str):
+        return Response({"message": "deleted"})

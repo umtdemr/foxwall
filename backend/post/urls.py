@@ -10,5 +10,10 @@ urlpatterns = [
         "create/",
         views.PostCreateAPIView.as_view(),
         name="create"
+    ),
+    path(
+        "delete/<uuid:post_token>/",
+        views.PostDeleteAPIView.as_view(),
+        name="delete"
     )
 ]

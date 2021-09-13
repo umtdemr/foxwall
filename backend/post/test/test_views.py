@@ -65,6 +65,6 @@ def test_delete_post_view(
         post_obj.user.token
     )
 
-    response = client.delete("/post/")
+    response = client.delete(f"/post/delete/{post_obj.uuid}/")
 
     assert response.status_code == 200

@@ -31,3 +31,5 @@ def create_post(
                 post=post,
                 image=image["image"]
             )
+
+    return post.uuid
