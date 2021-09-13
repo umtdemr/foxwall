@@ -1,6 +1,7 @@
 from post.utils.crud import create_post
 from typing import TYPE_CHECKING
 
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -42,4 +43,4 @@ class PostCreateAPIView(GenericAPIView):
             serializer.validated_data.get("text"),
             images=image_list
         )
-        return Response({"message": "created"})
+        return Response({"message": "created"}, status=status.HTTP_201_CREATED)
