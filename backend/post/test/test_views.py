@@ -54,3 +54,17 @@ def test_share_post(
         assert response.status_code == 400
     else:
         assert response.status_code == 201
+
+
+def test_delete_post_view(
+    api_client,
+    post_obj
+):
+    client = login_with_client(
+        api_client(),
+        post_obj.user.token
+    )
+
+    response = client.delete("/post/")
+
+    assert response.status_code == 200
