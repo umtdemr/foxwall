@@ -42,4 +42,4 @@ class PostCreateAPIView(GenericAPIView):
             serializer.validated_data.get("text"),
             images=image_list
         )
-        return Response({"message": "Started to post section!"})
+        return Response({"message": "created"})
