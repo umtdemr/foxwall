@@ -1,6 +1,10 @@
 import pytest
 
+from post.models import Post
 from tests.helpers import login_with_client
+
+
+pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.parametrize(
@@ -67,4 +71,5 @@ def test_delete_post_view(
 
     response = client.delete(f"/post/delete/{post_obj.uuid}/")
 
-    assert response.status_code == 200
+    assert response.status_code == 204
+    assert Post.objects.all().count() == 0
