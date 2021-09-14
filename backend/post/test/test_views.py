@@ -73,3 +73,18 @@ def test_delete_post_view(
 
     assert response.status_code == 204
     assert Post.objects.all().count() == 0
+
+
+def test_only_owner_can_delete_post(
+    api_client,
+    post_obj,
+    valid_user2
+):
+    client = login_with_client(
+        api_client(),
+        valid_user2.token
+    )
+
+    response = client.delete(f"/post/delete/{post_obj.uuid}/")
+
+    assert response.status_code == 403
