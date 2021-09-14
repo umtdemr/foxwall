@@ -1,4 +1,3 @@
-from post.utils.crud import create_post
 from typing import TYPE_CHECKING
 
 from rest_framework import status
@@ -8,6 +7,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import PostCreateSerializer, PostImageSerializer
+from .permissions import PostIsOwner
+from .utils.crud import create_post, get_post
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -50,7 +51,15 @@ class PostCreateAPIView(GenericAPIView):
 
 
 class PostDeleteAPIView(GenericAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (PostIsOwner, )
 
     def delete(self, request: "HttpRequest", post_token: str):
-        return Response({"message": "deleted"})
+        obj = get_post(post_token)
+        self.check_object_permissions(request, obj)
+
+        obj.delete()
+
+        return Response(
+            {"message": "deleted"},
+            status=status.HTTP_204_NO_CONTENT
+        )

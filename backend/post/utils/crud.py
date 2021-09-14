@@ -1,5 +1,9 @@
 from typing import TYPE_CHECKING, Optional, List
 
+from django.utils.translation import ugettext_lazy as _
+
+from rest_framework.exceptions import ValidationError
+
 from post import PostStatus, PostVisibility
 from post.models import Post, PostImage
 from core.validators.post import text_or_image_must_required
@@ -33,3 +37,14 @@ def create_post(
             )
 
     return post.uuid
+
+
+def get_post(
+    token: str
+):
+    try:
+        return Post.objects.get(uuid=token)
+    except Exception:
+        raise ValidationError(
+            _("Post couldn't find")
+        )
