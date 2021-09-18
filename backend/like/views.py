@@ -22,10 +22,15 @@ class LikeActionAPIView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = get_post(serializer.validated_data.get("uuid"))
-        toggle_like_on_post(post, request.user)
+        message = toggle_like_on_post(post, request.user)
+
+        response_status = status.HTTP_200_OK
+        if message == "liked":
+            response_status = status.HTTP_201_CREATED
 
         return Response(
             {
-                "message": "created"
-            }
+                "message": message,
+            },
+            status=response_status
         )
