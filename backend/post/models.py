@@ -1,4 +1,5 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from django.db import models
 from django.conf import settings
@@ -13,8 +14,20 @@ from post.utils import post_image_upload_directory
 from core.abstract_models import TimeInfoModel
 
 
-class PostQuerySet(models.QuerySet):
-    pass
+if TYPE_CHECKING:
+    from user.models import User
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            status=PostStatus.PUBLISHED,
+            visibility=PostVisibility.VISIBLE
+        )
+
+    def get_timeline_posts(self, user: "User"):
+        user_ids = user.get_follows().values("followed_user__id")
+        return self.filter(user_id__in=user_ids)
 
 
 class Post(MPTTModel, TimeInfoModel):
@@ -43,7 +56,7 @@ class Post(MPTTModel, TimeInfoModel):
                                related_name="replies",
                                on_delete=models.SET_NULL)
 
-    objects = PostQuerySet.as_manager()
+    active = PostManager()
     tree_objects = TreeManager()
 
     def __str__(self) -> str:
