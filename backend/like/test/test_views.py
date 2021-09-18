@@ -23,7 +23,7 @@ def test_like_post(
     assert Like.objects.count() == 1
 
 
-def test_ulike_post(
+def test_unlike_post(
     api_client,
     like_obj,
 ):
