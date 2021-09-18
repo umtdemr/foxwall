@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from .models import Post
 from core.serializer_fields import RestrictedImageFileSizeField
+from core.validators.post import post_exist_validator
 
 
 class PostImageSerializer(serializers.Serializer):
@@ -24,3 +25,9 @@ class PostCreateSerializer(serializers.ModelSerializer):
             "text",
             "image",
         )
+
+
+class PostActionSerializer(serializers.Serializer):
+    uuid = serializers.UUIDField(
+        validators=[post_exist_validator]
+    )
