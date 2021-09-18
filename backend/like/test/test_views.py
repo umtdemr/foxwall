@@ -21,3 +21,18 @@ def test_like_post(
 
     assert response.status_code == 201
     assert Like.objects.count() == 1
+
+
+def test_ulike_post(
+    api_client,
+    like_obj,
+):
+    client = login_with_client(
+        api_client(),
+        like_obj.user.token
+    )
+
+    response = client.post("/like/action/", {"uuid": like_obj.post.uuid})
+
+    assert response.status_code == 200
+    assert Like.objects.count() == 0
