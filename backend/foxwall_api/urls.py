@@ -26,7 +26,8 @@ urlpatterns = [
     ),
     path("user/", include("user.urls", namespace="user")),
     path("follow/", include("follow.urls", namespace="follow")),
-    path("post/", include("post.urls", namespace="post"))
+    path("post/", include("post.urls", namespace="post")),
+    path("like/", include("like.urls", namespace="like"))
 ]
 
 if settings.DEBUG:

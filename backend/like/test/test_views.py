@@ -17,7 +17,7 @@ def test_like_post(
         valid_user_profile.user.token
     )
 
-    response = client.post("/like/", {"uuid": post_obj.uuid})
+    response = client.post("/like/action/", {"uuid": post_obj.uuid})
 
     assert response.status_code == 201
     assert Like.objects.count() == 1
