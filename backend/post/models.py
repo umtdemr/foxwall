@@ -18,16 +18,14 @@ if TYPE_CHECKING:
     from user.models import User
 
 
-class PostManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            status=PostStatus.PUBLISHED,
-            visibility=PostVisibility.VISIBLE
-        )
-
+class PostQuerySet(models.QuerySet):
     def get_timeline_posts(self, user: "User"):
         user_ids = user.get_follows().values("followed_user__id")
-        return self.filter(user_id__in=user_ids)
+        return self.filter(
+            user_id__in=user_ids,
+            status=PostStatus.PUBLISHED,
+            visibility=PostVisibility.VISIBLE,
+        )
 
 
 class Post(MPTTModel, TimeInfoModel):
@@ -56,7 +54,7 @@ class Post(MPTTModel, TimeInfoModel):
                                related_name="replies",
                                on_delete=models.SET_NULL)
 
-    active = PostManager()
+    active = PostQuerySet.as_manager()
     tree_objects = TreeManager()
 
     def __str__(self) -> str:
