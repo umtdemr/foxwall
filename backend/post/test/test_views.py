@@ -88,3 +88,17 @@ def test_only_owner_can_delete_post(
     response = client.delete(f"/post/delete/{post_obj.uuid}/")
 
     assert response.status_code == 403
+
+
+def test_timeline_api_view(
+    api_client,
+    follow_obj
+):
+    client = login_with_client(
+        api_client(),
+        follow_obj.user.token
+    )
+
+    response = client.get("/post/timeline/")
+
+    assert response.status_code == 200

@@ -2,6 +2,8 @@ import uuid
 from typing import TYPE_CHECKING
 
 from django.db import models
+from django.db.models import Count
+from django.db.models.functions import Coalesce
 from django.conf import settings
 
 from mptt.models import MPTTModel
@@ -25,6 +27,8 @@ class PostQuerySet(models.QuerySet):
             user_id__in=user_ids,
             status=PostStatus.PUBLISHED,
             visibility=PostVisibility.VISIBLE,
+        ).annotate(
+            num_likes=Coalesce(Count("likes"), 0)
         )
 
 

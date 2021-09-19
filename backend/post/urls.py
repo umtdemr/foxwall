@@ -15,5 +15,10 @@ urlpatterns = [
         "delete/<uuid:post_token>/",
         views.PostDeleteAPIView.as_view(),
         name="delete"
-    )
+    ),
+    path(
+        "timeline/",
+        views.PostTimelineAPIView.as_view(),
+        name="timeline"
+    ),
 ]
