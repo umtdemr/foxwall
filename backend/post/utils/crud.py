@@ -48,3 +48,9 @@ def get_post(
         raise ValidationError(
             _("Post couldn't find")
         )
+
+
+def get_timeline_posts(
+    user: "User"
+):
+    return Post.active.get_timeline_posts(user)

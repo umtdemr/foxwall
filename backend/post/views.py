@@ -7,9 +7,13 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import PostCreateSerializer, PostImageSerializer
+from .serializers import (
+    PostCreateSerializer,
+    PostImageSerializer,
+    PostRetrieveSerializer
+)
 from .permissions import PostIsOwner
-from .utils.crud import create_post, get_post
+from .utils.crud import create_post, get_post, get_timeline_posts
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -67,6 +71,16 @@ class PostDeleteAPIView(GenericAPIView):
 
 
 class PostTimelineAPIView(APIView):
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request: "HttpRequest"):
-        return Response({"message": "timeline!"})
+        posts = get_timeline_posts(request.user)
+
+        serializer = PostRetrieveSerializer(instance=posts, many=True)
+
+        return Response(
+            {
+                "results": serializer.data,
+                "count": posts.count()
+            },
+        )
