@@ -29,7 +29,7 @@ class PostQuerySet(models.QuerySet):
             visibility=PostVisibility.VISIBLE,
         ).annotate(
             num_likes=Coalesce(Count("likes"), 0)
-        )
+        ).order_by("-created_at")
 
 
 class Post(MPTTModel, TimeInfoModel):
