@@ -2,7 +2,7 @@ import uuid
 from typing import TYPE_CHECKING
 
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Value
 from django.db.models.functions import Coalesce
 from django.conf import settings
 
@@ -28,7 +28,7 @@ class PostQuerySet(models.QuerySet):
             status=PostStatus.PUBLISHED,
             visibility=PostVisibility.VISIBLE,
         ).annotate(
-            num_likes=Coalesce(Count("likes"), 0)
+            num_likes=Coalesce(Count("likes"), Value(0))
         ).order_by("-created_at")
 
 
