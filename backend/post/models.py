@@ -61,6 +61,9 @@ class Post(MPTTModel, TimeInfoModel):
     active = PostQuerySet.as_manager()
     tree_objects = TreeManager()
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self) -> str:
         return str(self.user)
 
