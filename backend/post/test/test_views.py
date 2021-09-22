@@ -92,7 +92,8 @@ def test_only_owner_can_delete_post(
 
 def test_timeline_api_view(
     api_client,
-    follow_obj
+    follow_obj,
+    post_obj
 ):
     client = login_with_client(
         api_client(),
@@ -102,3 +103,4 @@ def test_timeline_api_view(
     response = client.get("/post/timeline/")
 
     assert response.status_code == 200
+    assert response.data.get("count") == 1
