@@ -17,6 +17,7 @@ class DisplayProfileSerializer(serializers.ModelSerializer):
             'avatar',
             'name',
             'is_hidden',
+            'is_celebrity',
         )
 
 
