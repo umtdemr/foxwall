@@ -8,6 +8,7 @@ from user.views.auth.views import (
 )
 from user.views.authenticated.views import ProfileAPIView
 from user.views.follow.views import FollowersAPIView, FollowsAPIView
+from user.views.users.views import GetUserAPIView
 
 app_name = "user"
 
@@ -28,4 +29,5 @@ urlpatterns = [
     path("me/", ProfileAPIView.as_view(), name="update"),
     path("followers/", FollowersAPIView.as_view(), name="followers"),
     path("follows/", FollowsAPIView.as_view(), name="follows"),
+    path("profile/<str:username>/", GetUserAPIView.as_view(), name="profile"),
 ]
