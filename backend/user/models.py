@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
             {
                 "username": self.username,
                 "email": self.email,
-                "exp": datetime.utcnow() + timedelta(hours=24),
+                "exp": datetime.utcnow() + timedelta(days=24),
             },
             settings.JWT_SECRET_KEY,
             algorithm='HS256'
