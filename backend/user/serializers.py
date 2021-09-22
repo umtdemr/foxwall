@@ -7,6 +7,9 @@ from core.validators import (
     user_username_exists,
     username_special_character_validator
 )
+from core.serializer_fields.user import (
+    IsFollowingField
+)
 
 
 class DisplayProfileSerializer(serializers.ModelSerializer):
@@ -76,6 +79,7 @@ class GetUserSerializer(serializers.ModelSerializer):
     """
 
     profile = GetProfileSerializer()
+    is_following = IsFollowingField()
 
     class Meta:
         model = User
@@ -84,4 +88,5 @@ class GetUserSerializer(serializers.ModelSerializer):
             "email",
             "username",
             "profile",
+            "is_following",
         )
