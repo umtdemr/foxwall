@@ -20,7 +20,9 @@ class GetUserAPIView(APIView):
         username_validation_serializer.is_valid(raise_exception=True)
         user = User.objects.get(username=username)
 
-        user_serializer = GetUserSerializer(instance=user)
-        print(user_serializer.data)
+        user_serializer = GetUserSerializer(
+            instance=user,
+            context={"request": request}
+        )
 
-        return Response({"user": username})
+        return Response({"user": user_serializer.data})
