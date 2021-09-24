@@ -17,6 +17,7 @@ def test_get_user_api_view(
     )
 
     assert response.status_code == 200
-    print(response.data.get("user"))
-    assert response.data.get("user").get("is_following")
-    assert response.data.get("user").get("is_followed_me")
+    assert response.data.get("user").get("is_following") is True
+    assert response.data.get("user").get("is_followed_me") is True
+    assert response.data.get("user").get("is_sent_follow_request") is False
+    assert response.data.get("user").get("is_came_follow_request") is False
