@@ -220,6 +220,11 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     def is_following_with_id(self, control_id: int) -> bool:
         return self.follows.filter(followed_user_id=control_id).exists()
 
+    def has_follow_request_with_id(self, control_id: int) -> bool:
+        return self.coming_follow_requests.filter(
+            creator_id=control_id
+        ).exists()
+
 
 class UserProfile(TimeInfoModel):
     user = models.OneToOneField(

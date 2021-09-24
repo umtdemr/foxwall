@@ -50,7 +50,7 @@ class IsSentFollowRequestField(ReadOnlyField):
         if not request.user.is_anonymous:
             if request.user.pk == value.pk:
                 return False
-            return request.user.has_follow_request_with_id(value.pk)
+            return value.has_follow_request_with_id(request.user.pk)
 
         return False
 
@@ -58,7 +58,7 @@ class IsSentFollowRequestField(ReadOnlyField):
 class IsCameFollowRequestField(ReadOnlyField):
     def __init__(self, **kwargs):
         kwargs["source"] = "*"
-        return super(IsSentFollowRequestField, self).__init__(**kwargs)
+        return super(IsCameFollowRequestField, self).__init__(**kwargs)
 
     def to_representation(self, value: "User"):
         request = self.context.get("request")
@@ -66,6 +66,6 @@ class IsCameFollowRequestField(ReadOnlyField):
         if not request.user.is_anonymous:
             if request.user.pk == value.pk:
                 return False
-            return value.has_follow_request_with_id(request.user.pk)
+            return request.user.has_follow_request_with_id(value.pk)
 
         return False
