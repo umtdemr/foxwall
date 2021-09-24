@@ -9,7 +9,9 @@ from core.validators import (
 )
 from core.serializer_fields.user import (
     IsFollowingField,
-    IsFollowedMeField
+    IsFollowedMeField,
+    IsSentFollowRequestField,
+    IsCameFollowRequestField,
 )
 
 
@@ -82,6 +84,8 @@ class GetUserSerializer(serializers.ModelSerializer):
     profile = GetProfileSerializer()
     is_following = IsFollowingField()
     is_followed_me = IsFollowedMeField()
+    is_sent_follow_request = IsSentFollowRequestField()
+    is_came_follow_request = IsCameFollowRequestField()
 
     class Meta:
         model = User
@@ -92,4 +96,6 @@ class GetUserSerializer(serializers.ModelSerializer):
             "profile",
             "is_following",
             "is_followed_me",
+            "is_sent_follow_request",
+            "is_came_follow_request",
         )
