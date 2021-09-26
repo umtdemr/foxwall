@@ -34,7 +34,7 @@ def test_get_user_posts_api_view(
     )
 
     response = client.get(
-        f"/user/{follow_obj.followed_user.username}/posts/"
+        f"/user/profile/{follow_obj.followed_user.username}/posts/"
     )
 
     assert response.status_code == 200
