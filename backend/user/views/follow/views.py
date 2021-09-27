@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
 
 from follow.serializers import FollowerSerailizer, FollowSerailizer
 
@@ -14,6 +15,10 @@ if TYPE_CHECKING:
 class FollowersAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    @extend_schema(
+        request=None,
+        responses=FollowerSerailizer
+    )
     def get(self, request: "HttpRequest"):
         search_param = request.query_params.get("q")
 
@@ -32,6 +37,10 @@ class FollowersAPIView(GenericAPIView):
 class FollowsAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    @extend_schema(
+        request=None,
+        responses=FollowSerailizer
+    )
     def get(self, request: "HttpRequest"):
         search_param = request.query_params.get("q")
 

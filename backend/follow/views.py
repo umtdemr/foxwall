@@ -7,6 +7,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from drf_spectacular.utils import extend_schema
 
 from user.serializers import RequestWithUsernameSerializer
 from follow.serializers import (
@@ -79,6 +80,10 @@ class CancelRequestAPIView(GenericAPIView):
 class ReceivedFollowRequestsAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
 
+    @extend_schema(
+        request=None,
+        responses=RequestReceivedFollowSerializer
+    )
     def get(self, request: "HttpRequest"):
         received_requests = request.user.get_received_follow_requests()
         serializer = RequestReceivedFollowSerializer(

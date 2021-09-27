@@ -6,6 +6,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
 
 from .serializers import (
     PostCreateSerializer,
@@ -14,6 +15,7 @@ from .serializers import (
 )
 from .permissions import PostIsOwner
 from .utils.crud import create_post, get_post, get_timeline_posts
+from core.serializer_fields import MessageSerializer
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -58,6 +60,10 @@ class PostCreateAPIView(GenericAPIView):
 class PostDeleteAPIView(GenericAPIView):
     permission_classes = (PostIsOwner, )
 
+    @extend_schema(
+        request=None,
+        responses={204: MessageSerializer}
+    )
     def delete(self, request: "HttpRequest", post_token: str):
         obj = get_post(post_token)
         self.check_object_permissions(request, obj)
@@ -73,6 +79,10 @@ class PostDeleteAPIView(GenericAPIView):
 class PostTimelineAPIView(APIView):
     permission_classes = (IsAuthenticated, )
 
+    @extend_schema(
+        request=None,
+        responses=PostRetrieveSerializer
+    )
     def get(self, request: "HttpRequest"):
         posts = get_timeline_posts(request.user)
 

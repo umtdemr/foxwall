@@ -1,6 +1,7 @@
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ImageField as DjangoImageField
+from rest_framework import serializers
 
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import FileField
@@ -59,3 +60,7 @@ class RestrictedImageFileSizeField(RestrictedFileSizeField):
         django_field = self._DjangoImageField()
         django_field.error_messages = self.error_messages
         return django_field.clean(file_object)
+
+
+class MessageSerializer(serializers.Serializer):
+    message = serializers.CharField()
