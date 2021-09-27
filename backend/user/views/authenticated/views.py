@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema
 
 from .serializers import UserProfileUpdateSerializer, UserSerializer
 from user.utils import get_user_data_with_serializer
+from core.serializer_fields import UpdatedSerializer
 
 if TYPE_CHECKING:
     from django.http.request import QueryDict
@@ -24,7 +25,8 @@ class ProfileAPIView(APIView):
     )
 
     @extend_schema(
-        request=UserSerializer
+        request=None,
+        responses=UserSerializer
     )
     def get(self, request: "HttpRequest"):
         serializer = get_user_data_with_serializer(request.user)
@@ -33,7 +35,8 @@ class ProfileAPIView(APIView):
         return Response(serializer.data)
 
     @extend_schema(
-        request=UserProfileUpdateSerializer,
+        request=None,
+        responses=UpdatedSerializer,
     )
     def patch(self, request: "HttpRequest"):
         serializer = UserProfileUpdateSerializer(

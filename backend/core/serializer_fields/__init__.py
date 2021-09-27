@@ -64,3 +64,7 @@ class RestrictedImageFileSizeField(RestrictedFileSizeField):
 
 class MessageSerializer(serializers.Serializer):
     message = serializers.CharField()
+
+
+class UpdatedSerializer(serializers.Serializer):
+    updated = serializers.BooleanField()
