@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
 from user.models import User
 from user.serializers import RequestWithUsernameSerializer, GetUserSerializer
@@ -27,7 +28,7 @@ class GetUserAPIView(APIView):
             context={"request": request}
         )
 
-        return Response({"user": user_serializer.data})
+        return Response(user_serializer.data)
 
 
 class GetUserPostsAPIView(APIView):
@@ -41,7 +42,8 @@ class GetUserPostsAPIView(APIView):
         posts = Post.active.get_user_posts(user.id)
 
         post_serializer = PostRetrieveSerializer(
-            instance=posts
+            instance=posts,
+            many=True
         )
 
-        return Response({"posts": "coming..."})
+        return Response(post_serializer.data)
