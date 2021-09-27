@@ -8,6 +8,7 @@ from user.models import User
 from user.serializers import RequestWithUsernameSerializer, GetUserSerializer
 from post.models import Post
 from post.serializers import PostRetrieveSerializer
+from core.serializer_fields.openapi import OpenAPIUserRetrieveSerializer
 
 
 if TYPE_CHECKING:
@@ -16,6 +17,10 @@ if TYPE_CHECKING:
 
 class GetUserAPIView(APIView):
 
+    @extend_schema(
+        request=None,
+        responses=OpenAPIUserRetrieveSerializer
+    )
     def get(self, request: "HttpRequest", username: str):
         username_validation_serializer = RequestWithUsernameSerializer(
             data={"username": username}
@@ -33,6 +38,10 @@ class GetUserAPIView(APIView):
 
 class GetUserPostsAPIView(APIView):
 
+    @extend_schema(
+        request=None,
+        responses=PostRetrieveSerializer
+    )
     def get(self, request: "HttpRequest", username: str):
         username_validation_serializer = RequestWithUsernameSerializer(
             data={"username": username}
