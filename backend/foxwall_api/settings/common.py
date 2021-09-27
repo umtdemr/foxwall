@@ -54,4 +54,8 @@ MAX_PROFILE_AVATAR_SIZE = 10485760
 MAX_PROFILE_COVER_SIZE = 10485760
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
-from .additional import *  # noqa
+
+try:
+    from .additional import *  # noqa
+except Exception:
+    pass
