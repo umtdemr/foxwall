@@ -110,7 +110,7 @@ def test_retrieve_me(
     is_hidden = response.data.get("is_hidden")
     bio = response.data.get("bio")
 
-    assert username == str(valid_user_profile.user)
+    assert username == valid_user_profile.user.username
     assert email == valid_user_profile.user.email
     assert name == valid_user_profile.name
     assert is_celebrity == valid_user_profile.is_celebrity

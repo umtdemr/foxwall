@@ -17,10 +17,10 @@ def test_get_user_api_view(
     )
 
     assert response.status_code == 200
-    assert response.data.get("user").get("is_following") is True
-    assert response.data.get("user").get("is_followed_me") is True
-    assert response.data.get("user").get("is_sent_follow_request") is False
-    assert response.data.get("user").get("is_came_follow_request") is False
+    assert response.data.get("is_following") is True
+    assert response.data.get("is_followed_me") is True
+    assert response.data.get("is_sent_follow_request") is False
+    assert response.data.get("is_came_follow_request") is False
 
 
 def test_get_user_posts_api_view(
@@ -38,3 +38,4 @@ def test_get_user_posts_api_view(
     )
 
     assert response.status_code == 200
+    assert len(response.data) == 1

@@ -31,9 +31,9 @@ def media_root(tmpdir, settings):  # noqa
 @pytest.fixture
 def valid_user(db):
     user = User.objects.create_user(
-        username="mediumgoal",
         email="deneme@w.com",
         password="password",
+        username="mediumgoal",
     )
     return user
 
@@ -41,9 +41,9 @@ def valid_user(db):
 @pytest.fixture
 def valid_user2(db):
     user = User.objects.create_user(
-        username="mediumgoals",
         email="deneme@w.scom",
         password="passwsord",
+        username="mediumgoals",
     )
     return user
 

@@ -47,7 +47,7 @@ def test_user_manager(username, email, password, is_super, error):
                 username=username,
             )
         else:
-            user = User.objects.create_superuser(email, username, password)
+            user = User.objects.create_superuser(email, password, username)
         assert user.username == username
         assert user.email == email
         if password is None:

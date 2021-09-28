@@ -62,12 +62,14 @@ class LoginAPIView(GenericAPIView):
         email = data.get('email', '')
         password = data.get('password', '')
 
-        authenticated_w_username = False
-        if username:
-            authenticated_w_username = True
-        elif email and not authenticated_w_username:
-            username = User.get_username_with_email(email)
-        user = auth.authenticate(username=username, password=password)
+        auth_with_email = False
+        if email:
+            auth_with_email = True
+        elif username and not auth_with_email:
+            user = User.get_user_with_username(username)
+            if user:
+                email = user.email
+        user = auth.authenticate(email=email, password=password)
 
         if user:
             auth_token = user.token
