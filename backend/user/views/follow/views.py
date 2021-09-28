@@ -9,7 +9,7 @@ from follow.serializers import FollowerSerailizer, FollowSerailizer
 
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class FollowersAPIView(GenericAPIView):
@@ -19,7 +19,7 @@ class FollowersAPIView(GenericAPIView):
         request=None,
         responses=FollowerSerailizer
     )
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         search_param = request.query_params.get("q")
 
         followers = request.user.get_followers(q=search_param)
@@ -41,7 +41,7 @@ class FollowsAPIView(GenericAPIView):
         request=None,
         responses=FollowSerailizer
     )
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         search_param = request.query_params.get("q")
 
         follows = request.user.get_follows(q=search_param)

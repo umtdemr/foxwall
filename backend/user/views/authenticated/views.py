@@ -13,7 +13,7 @@ from core.serializer_fields import UpdatedSerializer
 if TYPE_CHECKING:
     from django.http.request import QueryDict
     from user.models import User
-    from django.http.request import HttpRequest
+    from rest_framework.request import Request
 
 
 class ProfileAPIView(APIView):
@@ -28,7 +28,7 @@ class ProfileAPIView(APIView):
         request=None,
         responses=UserSerializer
     )
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         serializer = get_user_data_with_serializer(request.user)
         serializer.is_valid(raise_exception=True)
 
@@ -38,7 +38,7 @@ class ProfileAPIView(APIView):
         request=None,
         responses=UpdatedSerializer,
     )
-    def patch(self, request: "HttpRequest"):
+    def patch(self, request: "Request"):
         serializer = UserProfileUpdateSerializer(
             data=request.data
         )

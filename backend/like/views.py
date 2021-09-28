@@ -11,14 +11,14 @@ from post.utils.crud import get_post
 
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class LikeActionAPIView(GenericAPIView):
     serializer_class = PostActionSerializer
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = get_post(serializer.validated_data.get("uuid"))

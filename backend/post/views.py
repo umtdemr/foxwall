@@ -18,7 +18,7 @@ from .utils.crud import create_post, get_post, get_timeline_posts
 from core.serializer_fields import MessageSerializer
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class PostCreateAPIView(GenericAPIView):
@@ -29,7 +29,7 @@ class PostCreateAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = PostCreateSerializer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         images = dict((request.data).lists()).get("image")
@@ -64,7 +64,7 @@ class PostDeleteAPIView(GenericAPIView):
         request=None,
         responses={204: MessageSerializer}
     )
-    def delete(self, request: "HttpRequest", post_token: str):
+    def delete(self, request: "Request", post_token: str):
         obj = get_post(post_token)
         self.check_object_permissions(request, obj)
 
@@ -83,7 +83,7 @@ class PostTimelineAPIView(APIView):
         request=None,
         responses=PostRetrieveSerializer
     )
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         posts = get_timeline_posts(request.user)
 
         serializer = PostRetrieveSerializer(instance=posts, many=True)

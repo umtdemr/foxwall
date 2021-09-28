@@ -24,14 +24,14 @@ from user.utils.follow_request import (
 
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class RequestFollowAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -56,7 +56,7 @@ class CancelRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         target_username = serializer.validated_data.get(
@@ -84,7 +84,7 @@ class ReceivedFollowRequestsAPIView(GenericAPIView):
         request=None,
         responses=RequestReceivedFollowSerializer
     )
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         received_requests = request.user.get_received_follow_requests()
         serializer = RequestReceivedFollowSerializer(
             instance=received_requests,
@@ -102,7 +102,7 @@ class ReceivedFollowRequestsAPIView(GenericAPIView):
 class RejectFollowRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -123,7 +123,7 @@ class RejectFollowRequestAPIView(GenericAPIView):
 class AllowFollowRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -146,7 +146,7 @@ class AllowFollowRequestAPIView(GenericAPIView):
 class UnfollowRequestAPIView(GenericAPIView):
     serializer_class = RequestWithUsernameSerializer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 

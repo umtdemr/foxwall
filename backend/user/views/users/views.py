@@ -15,7 +15,7 @@ from core.validators.views import required_query_param
 
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class GetUserAPIView(APIView):
@@ -24,7 +24,7 @@ class GetUserAPIView(APIView):
         request=None,
         responses=OpenAPIUserRetrieveSerializer
     )
-    def get(self, request: "HttpRequest", username: str):
+    def get(self, request: "Request", username: str):
         username_validation_serializer = RequestWithUsernameSerializer(
             data={"username": username}
         )
@@ -45,7 +45,7 @@ class GetUserPostsAPIView(APIView):
         request=None,
         responses=PostRetrieveSerializer
     )
-    def get(self, request: "HttpRequest", username: str):
+    def get(self, request: "Request", username: str):
         username_validation_serializer = RequestWithUsernameSerializer(
             data={"username": username}
         )
@@ -63,7 +63,7 @@ class GetUserPostsAPIView(APIView):
 
 class SearchUserAPIView(APIView):
 
-    def get(self, request: "HttpRequest"):
+    def get(self, request: "Request"):
         required_query_param(
             "q",
             request

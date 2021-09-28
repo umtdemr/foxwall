@@ -25,7 +25,7 @@ from .serializers import (
 
 if TYPE_CHECKING:
     from collections import OrderedDict
-    from django.http import HttpRequest
+    from rest_framework.request import Request
 
 
 class LoginAPIView(GenericAPIView):
@@ -52,7 +52,7 @@ class LoginAPIView(GenericAPIView):
             )
         ],
     )
-    def post(self, request: "HttpRequest", *args, **kwargs):
+    def post(self, request: "Request", *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return self.on_valid(serializer.data)
@@ -90,7 +90,7 @@ class RegisterAPIView(GenericAPIView):
     )
     serializer_class = RegisterSerializer
 
-    def post(self, request: "HttpRequest", *args, **kwargs):
+    def post(self, request: "Request", *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -134,7 +134,7 @@ class RegisterAPIView(GenericAPIView):
 class RequestNewPasswordAPIView(GenericAPIView):
     serializer_class = ResetPasswordRequestSerializer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -154,7 +154,7 @@ class RequestNewPasswordAPIView(GenericAPIView):
 class VerifyNewPasswordAPIView(GenericAPIView):
     serializer_class = VerifyPasswordSerailizer
 
-    def post(self, request: "HttpRequest"):
+    def post(self, request: "Request"):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
