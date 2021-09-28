@@ -1,14 +1,17 @@
 from typing import TYPE_CHECKING
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
 from user.models import User
 from user.serializers import RequestWithUsernameSerializer, GetUserSerializer
+from user.utils.search import search_user
 from post.models import Post
 from post.serializers import PostRetrieveSerializer
 from core.serializer_fields.openapi import OpenAPIUserRetrieveSerializer
+from core.validators.views import required_query_param
 
 
 if TYPE_CHECKING:
@@ -56,3 +59,29 @@ class GetUserPostsAPIView(APIView):
         )
 
         return Response(post_serializer.data)
+
+
+class SearchUserAPIView(APIView):
+
+    def get(self, request: "HttpRequest"):
+        required_query_param(
+            "q",
+            request
+        )
+
+        q = request.query_params.get("q")
+        search_list, count = search_user(q)
+
+        if count == 0:
+            return Response(
+                {"message": "Not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = GetUserSerializer(
+            instance=search_list,
+            many=True,
+            context={"request": request}
+        )
+
+        return Response(serializer.data)

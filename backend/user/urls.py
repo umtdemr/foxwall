@@ -8,7 +8,11 @@ from user.views.auth.views import (
 )
 from user.views.authenticated.views import ProfileAPIView
 from user.views.follow.views import FollowersAPIView, FollowsAPIView
-from user.views.users.views import GetUserAPIView, GetUserPostsAPIView
+from user.views.users.views import (
+    GetUserAPIView,
+    GetUserPostsAPIView,
+    SearchUserAPIView,
+)
 
 app_name = "user"
 
@@ -34,5 +38,10 @@ urlpatterns = [
         "profile/<str:username>/posts/",
         GetUserPostsAPIView.as_view(),
         name="profile-posts"
+    ),
+    path(
+        "search/",
+        SearchUserAPIView.as_view(),
+        name="search"
     ),
 ]

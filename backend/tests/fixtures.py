@@ -51,7 +51,7 @@ def valid_user2(db):
 @pytest.fixture
 def valid_user_profile(db, valid_user, image, media_root):
     return UserProfile.objects.create(user=valid_user,
-                                      name="Ümit",
+                                      name="ümit",
                                       avatar=image,
                                       cover=image,
                                       bio="some text")
