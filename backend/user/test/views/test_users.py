@@ -1,3 +1,5 @@
+import pytest
+
 from tests.helpers import login_with_client
 
 
@@ -39,3 +41,29 @@ def test_get_user_posts_api_view(
 
     assert response.status_code == 200
     assert len(response.data) == 1
+
+
+@pytest.mark.parametrize(
+    "search_param, status_code",
+    [
+        ("mediumgoal", 200),
+        ("deneme@w.com", 200),
+        ("ümit", 200),
+        ("no_exist", 404),
+        ("qweqewqew@w.com", 404),
+        ("john", 404),
+    ]
+)
+def test_user_search_api_view(
+    search_param,
+    status_code,
+    api_client,
+    valid_user_profile,
+):
+    client = api_client()
+
+    response = client.get(
+        f"/user/search/?q={search_param}"
+    )
+
+    assert response.status_code == status_code
