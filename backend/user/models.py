@@ -20,6 +20,7 @@ from user import JwtTypes
 from core.abstract_models import TimeInfoModel
 from core.validators import username_not_taken_validator
 from user.utils import upload_to_user_directory
+from user.utils.generate import generate_username
 
 
 if TYPE_CHECKING:
@@ -41,7 +42,9 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, email, password, username=None):
+        if not username:
+            username = generate_username(email)
         user = self.create_user(
             email,
             password,
@@ -70,7 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
     is_email_verified = models.BooleanField(default=False)
 
     objects = UserManager()
-    USERNAME_FIELD = "username"
+    USERNAME_FIELD = "email"
 
     @property
     def token(self):

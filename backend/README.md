@@ -5,7 +5,7 @@
 
 - [x] Post fetch
 - [x] Add django base password validator for registering
-- [ ] Fix creating super user with management command error
+- [x] Fix creating super user with management command error
 - [ ] Fix creating user without manager password check error
 - [x] See followers
 - [x] See user's posts on their profile
