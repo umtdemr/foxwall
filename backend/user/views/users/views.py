@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.types import OpenApiTypes
 
 from user.models import User
 from user.serializers import RequestWithUsernameSerializer, GetUserSerializer
@@ -60,6 +61,13 @@ class GetUserPostsAPIView(ListAPIView):
 
 class SearchUserAPIView(APIView):
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter("q", OpenApiTypes.STR)
+        ],
+        request=None,
+        responses=OpenAPIUserRetrieveSerializer(many=True)
+    )
     def get(self, request: "Request"):
         required_query_param(
             "q",
