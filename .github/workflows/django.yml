@@ -1,4 +1,4 @@
-name: Django CI
+name: testing
 
 on:
   push:
@@ -28,6 +28,3 @@ jobs:
     - name: Run Tests
       run: |
         pytest
-    - name: Run Coverage
-      run: |
-        pytest --cov
