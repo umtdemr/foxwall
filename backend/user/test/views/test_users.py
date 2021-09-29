@@ -40,7 +40,7 @@ def test_get_user_posts_api_view(
     )
 
     assert response.status_code == 200
-    assert len(response.data) == 1
+    assert response.data.get("count") == 1
 
 
 @pytest.mark.parametrize(
