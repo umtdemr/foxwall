@@ -1,5 +1,12 @@
 # FoxWall
 
+<p align="center">
+<img src="https://github.com/umtdemr/foxwall/actions/workflows/django.yml/badge.svg?branch=master">
+<a href="https://codecov.io/gh/umtdemr/foxwall">
+  <img src="https://codecov.io/gh/umtdemr/foxwall/branch/master/graph/badge.svg?token=WQWCF98A6C"/>
+</a>
+</p>
+
 Foxwall is a basic social media api service written with python/django. It's completely open source. Feel free to fork. Also you can contribute. Just create pull request.
 
 ## Image From API
