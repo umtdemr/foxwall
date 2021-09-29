@@ -40,6 +40,15 @@ class PostQuerySet(models.QuerySet):
             num_likes=Coalesce(Count("likes"), Value(0))
         ).order_by("-created_at")
 
+    def get_user_posts_with_username(self, username: str):
+        return self.filter(
+            user__username=username,
+            status=PostStatus.PUBLISHED,
+            visibility=PostVisibility.VISIBLE,
+        ).annotate(
+            num_likes=Coalesce(Count("likes"), Value(0))
+        ).order_by("-created_at")
+
 
 class Post(MPTTModel, TimeInfoModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +16,7 @@ from .serializers import (
 from .permissions import PostIsOwner
 from .utils.crud import create_post, get_post, get_timeline_posts
 from core.serializer_fields import MessageSerializer
+from core.pagination import PostPagination
 
 if TYPE_CHECKING:
     from rest_framework.request import Request
@@ -76,21 +77,10 @@ class PostDeleteAPIView(GenericAPIView):
         )
 
 
-class PostTimelineAPIView(APIView):
+class PostTimelineAPIView(ListAPIView):
     permission_classes = (IsAuthenticated, )
+    serializer_class = PostRetrieveSerializer
+    pagination_class = PostPagination
 
-    @extend_schema(
-        request=None,
-        responses=PostRetrieveSerializer
-    )
-    def get(self, request: "Request"):
-        posts = get_timeline_posts(request.user)
-
-        serializer = PostRetrieveSerializer(instance=posts, many=True)
-
-        return Response(
-            {
-                "results": serializer.data,
-                "count": posts.count()
-            },
-        )
+    def get_queryset(self):
+        return get_timeline_posts(self.request.user)

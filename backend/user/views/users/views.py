@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
@@ -12,6 +13,7 @@ from post.models import Post
 from post.serializers import PostRetrieveSerializer
 from core.serializer_fields.openapi import OpenAPIUserRetrieveSerializer
 from core.validators.views import required_query_param
+from core.pagination import PostPagination
 
 
 if TYPE_CHECKING:
@@ -39,26 +41,21 @@ class GetUserAPIView(APIView):
         return Response(user_serializer.data)
 
 
-class GetUserPostsAPIView(APIView):
+class GetUserPostsAPIView(ListAPIView):
+    pagination_class = PostPagination
+    serializer_class = PostRetrieveSerializer
 
-    @extend_schema(
-        request=None,
-        responses=PostRetrieveSerializer
-    )
-    def get(self, request: "Request", username: str):
+    def get_queryset(self):
+        username = self.kwargs.get("username")
+        return Post.active.get_user_posts_with_username(username)
+
+    def list(self, request, *args, **kwargs):
+        username = kwargs.get("username")
         username_validation_serializer = RequestWithUsernameSerializer(
             data={"username": username}
         )
         username_validation_serializer.is_valid(raise_exception=True)
-        user = User.objects.get(username=username)
-        posts = Post.active.get_user_posts(user.id)
-
-        post_serializer = PostRetrieveSerializer(
-            instance=posts,
-            many=True
-        )
-
-        return Response(post_serializer.data)
+        return super().list(request, *args, **kwargs)
 
 
 class SearchUserAPIView(APIView):

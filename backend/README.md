@@ -11,5 +11,5 @@
 - [x] See user's posts on their profile
 - [x] Update user retrieve serializer for getting follow info and is celebrity
 - [x] Change type hints for request
-- [ ] Pagination in timeline posts and user's posts
+- [x] Pagination in timeline posts and user's posts
 - [ ] Change JWToken exp duration
