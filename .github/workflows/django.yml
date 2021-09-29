@@ -1,4 +1,4 @@
-name: testing
+name: Tests
 
 on:
   push:
@@ -28,6 +28,3 @@ jobs:
     - name: Run Tests
       run: |
         pytest
-        pytest --cov=./
-    - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v2
