@@ -21,19 +21,16 @@ I used [drf-spectacular](https://github.com/tfranzel/drf-spectacular) for Open A
 
 ### Prerequisites
 
-Currently python and [poetry](https://python-poetry.org/) must be in your system. I'm saying currently because this project will have docker option.
+Currently python and any virtual environment package must be in your system. I'm saying currently because this project will have docker option.
 
 &emsp;
 ### Using Foxwall
 
 1. Clone this repository.
-2. Go to backend folder.
-2. Execute `poetry shell` in your terminal.
-3. Execute `poetry install` and wait for the messages will done.
-4. Execute `python manage.py migrate` for migrating.
-5. Execute `python manage.py runserver`. And that's it! Now you are be able to use Foxwall API. For that just go to [localhost:8000](http://127.0.0.1:8000)
+2. Create virtual environment and install packages from requirements.txt file.
+4. Execute `python manage.py migrate` for migrating models to database.
+5. Execute `python manage.py runserver`. And that's it! Now you are able to use Foxwall API. For that just go to [localhost:8000](http://127.0.0.1:8000)
 
-> For testing and linting you should execute `poetry install --dev` too.
 
 &emsp;
 
@@ -54,8 +51,8 @@ How i coded models? Firstly i decided to think about db. For this purpose i crea
 ![Database Diagram](images/diagram.png)
 
 
-## This is not done yet...
+## Not done yet...
 
 - [ ] Docker configurations.
 - [ ] Leave a post as comment to the post.
-- [ ] Currently there is not using fields such as last_edited on post. Should make meaningful these fields.
+- [ ] Currently there are fields that i did not use such as last_edited field on post model. Should make meaningful these fields.
