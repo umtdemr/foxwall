@@ -2,9 +2,11 @@ from django.conf import settings
 
 from rest_framework import serializers
 
+
 from .models import Post
 from core.serializer_fields import RestrictedImageFileSizeField
 from core.validators.post import post_exist_validator
+from core.serializer_fields.post import IsCurrentUserLikedField
 from user.serializers import DisplayUserSerializer
 
 
@@ -44,6 +46,7 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
     user = DisplayUserSerializer()
     images = PostGetImagesSerializer(many=True, required=False)
     num_likes = serializers.IntegerField(default=0, required=False)
+    is_i_liked = IsCurrentUserLikedField()
 
     class Meta:
         model = Post
@@ -52,5 +55,6 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
             "text",
             "images",
             "num_likes",
-            "uuid"
+            "uuid",
+            "is_i_liked"
         )
