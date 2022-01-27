@@ -56,5 +56,6 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
             "images",
             "num_likes",
             "uuid",
-            "is_i_liked"
+            "is_i_liked",
+            "created_at"
         )
