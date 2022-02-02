@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from rest_framework import serializers
+from follow.utils import get_users_followers_count, get_users_follows_count
 
 from user.models import User, UserProfile
 from core.validators import (
@@ -86,6 +87,8 @@ class GetUserSerializer(serializers.ModelSerializer):
     is_followed_me = IsFollowedMeField()
     is_sent_follow_request = IsSentFollowRequestField()
     is_came_follow_request = IsCameFollowRequestField()
+    follower_count = serializers.SerializerMethodField()
+    follows_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -98,4 +101,12 @@ class GetUserSerializer(serializers.ModelSerializer):
             "is_followed_me",
             "is_sent_follow_request",
             "is_came_follow_request",
+            "follower_count",
+            "follows_count",
         )
+    
+    def get_follower_count(self, obj: "User"):
+        return get_users_followers_count(obj.pk)
+
+    def get_follows_count(self, obj: "User"):
+        return get_users_follows_count(obj.pk)
