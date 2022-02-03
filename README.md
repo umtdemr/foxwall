@@ -57,3 +57,4 @@ How i coded models? Firstly i decided to think about db. For this purpose i crea
 - [ ] Leave a post as comment to the post.
 - [ ] Currently there are fields that i did not use such as last_edited field on post model. Should make meaningful these fields.
 - [ ] Fix bio issue after registiration
+- [ ] Create views for followers & follows list
