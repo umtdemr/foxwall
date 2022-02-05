@@ -22,6 +22,7 @@ class UserSerializer(serializers.Serializer):
     bio = serializers.CharField(
         allow_blank=True,
         required=False,
+        allow_null=True,
     )
     avatar = RestrictedImageFileSizeField(
         max_upload_size=settings.MAX_PROFILE_AVATAR_SIZE,
