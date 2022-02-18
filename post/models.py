@@ -22,7 +22,14 @@ if TYPE_CHECKING:
 
 class PostQuerySet(models.QuerySet):
     def get_timeline_posts(self, user: "User"):
-        user_ids = user.get_follows().values("followed_user__id")
+        user_ids = user.get_follows().values_list("followed_user__id", flat=True)
+        try:
+            user_ids = list(user_ids)
+            #  Add current user's posts to timeline posts
+            user_ids.append(user.pk)
+        except Exception:
+            user_ids = user.get_follows().values("followed_user__id")
+
         return self.filter(
             user_id__in=user_ids,
             status=PostStatus.PUBLISHED,
