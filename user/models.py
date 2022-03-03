@@ -145,7 +145,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeInfoModel):
 
     def request_password_token(self):
         generated_request_token = self._generate_password_request_token()
-        #  send email...
+        #  TODO: send email...
 
         return generated_request_token
 
