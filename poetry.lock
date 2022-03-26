@@ -105,7 +105,7 @@ toml = ["toml"]
 
 [[package]]
 name = "django"
-version = "3.2.2"
+version = ">=3.2.12"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
