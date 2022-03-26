@@ -12,7 +12,7 @@ django-cors-headers==3.7.0; python_version >= "3.6"
 django-imagekit==4.0.2
 django-js-asset==1.2.2; python_version >= "3.6"
 django-mptt==0.12.0; python_version >= "3.6"
-django==3.2.2; python_version >= "3.6"
+django>=3.2.12; python_version >= "3.6"
 djangorestframework==3.12.4; python_version >= "3.5"
 drf-spectacular==0.17.3; python_version >= "3.6"
 execnet==1.9.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
