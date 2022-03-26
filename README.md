@@ -7,9 +7,9 @@
 </a>
 </p>
 
-Foxwall is a basic social media api service written with python/django. It's completely open source. Feel free to fork. Also you can contribute. Just create pull request.
+Foxwall is a basic social media API service written with python/django. It's completely open source. Feel free to fork. Also pull requests are welcome.
 
-## Image From API
+## Screenshot
 &emsp;
 ![API Image](images/api_service.png)
 
@@ -36,7 +36,8 @@ Currently python and any virtual environment package must be in your system. I'm
 
 ### Testing
 
-I used pytest for unit testing and e2e testing.
+I Used pytest for unit and e2e testing.
+
 
 ### Trying the tests
 Execute `pytest` for testing the app.
@@ -46,15 +47,17 @@ For the test coverage please execute `pytest --cov` or `pytest --cov --cov-repor
 
 ## Database Diagram
 
-How i coded models? Firstly i decided to think about db. For this purpose i created diagram below (with [Db Diagram](https://dbdiagram.io)). That diagram helped a lot. I suggest to create database diagram whenever you start to a backend project.
+Before I start to code, I created a database diagram with [dbdiagram.io](https://dbdiagram.io) for how should database look like. That helped me a lot on code process. I suggest to create diagram whenever you start to any project. Not only db diagram, it can be logic diagram, code process diagram, roadmap, etc...
 
 ![Database Diagram](images/diagram.png)
 
 
 ## Not done yet...
 
+Obviously, there is things to do.
+
 - [ ] Docker configurations.
 - [ ] Leave a post as comment to the post.
 - [ ] Currently there are fields that i did not use such as last_edited field on post model. Should make meaningful these fields.
-- [ ] Fix bio issue after registiration
+- [x] Fix bio issue after registiration
 - [ ] Password reset request
